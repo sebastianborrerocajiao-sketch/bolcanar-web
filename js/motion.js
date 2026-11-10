@@ -1,7 +1,7 @@
 /*
-  Motion mini (~3 KB) solo para botones y transiciones de entrada.
-  No anima el frasco: el giro de 360° queda para js-cloudimage-360-view
-  cuando existan las fotos. Ver los placeholders en index.html.
+  Motion mini (~3 KB) para botones, la entrada de las secciones
+  y el desplazamiento del giro (héroe ↔ productos).
+  No gira el frasco: el visor 360° espera fotos reales.
 */
 
 var EASE = [0.2, 0.8, 0.2, 1];
@@ -105,8 +105,9 @@ async function start() {
   }
 
   document.documentElement.classList.add("motion-ready");
+  window.BolcanarMotion = { animate: animate };
 
-  document.querySelectorAll(".btn, .cm, .nav-toggle, .mm-close").forEach(function (el) {
+  document.querySelectorAll(".btn, .cm, .nav-toggle, .mm-close, .giro-arrow, .giro-dot").forEach(function (el) {
     pressable(animate, el, -2);
   });
   document.querySelectorAll(".foot-soc a").forEach(function (el) {

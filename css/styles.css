@@ -173,6 +173,110 @@ nav.links + .btn, .nav .btn { font-size: .74rem; padding: .8em 1.4em; }
 .nav-toggle { display: none; background: none; border: 0; color: var(--cream); cursor: pointer; }
 
 /* ---------- hero ---------- */
+.giro { position: relative; }
+.giro-viewport {
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+}
+.giro-track {
+  display: flex;
+  width: 200%;
+  align-items: flex-start;
+}
+.giro-frame {
+  flex: 0 0 50%;
+  width: 50%;
+  max-width: 50%;
+}
+.giro-frame.hero { padding: 0 0 84px; }
+.giro-products {
+  padding: 92px 0 120px;
+  background: var(--bg);
+}
+.giro-products .section-head { margin-bottom: 22px; }
+.giro-products .section-head h2 {
+  font-size: clamp(2.1rem, 4vw, 3.15rem);
+  margin-bottom: .25em;
+}
+.giro-products .pcard-img { aspect-ratio: auto; height: 158px; }
+.giro-products .pcard { padding-bottom: 22px; }
+.giro-products .pcard-desc { margin-bottom: 14px; }
+
+.hero-video-slot {
+  margin-top: 28px;
+  min-height: 92px;
+  max-width: 38ch;
+  border: 1px dashed rgba(232, 177, 58, .55);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px 18px;
+  background: color-mix(in oklab, var(--bg) 62%, transparent);
+}
+.hero-video-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.hero-video-label {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--faint);
+}
+
+.giro-controls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 28px 12px 16px;
+  background: linear-gradient(to top, var(--bg) 42%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.giro-controls.is-on { opacity: 1; }
+.giro-controls button { pointer-events: auto; }
+.giro-arrow {
+  appearance: none;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: .9em 1.15em;
+  cursor: pointer;
+  border: 1px solid var(--accent);
+  background: color-mix(in oklab, var(--bg) 84%, transparent);
+  color: var(--cream);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.giro-next { background: var(--accent); color: #1c1003; }
+.giro-dots { display: flex; gap: 8px; align-items: center; }
+.giro-dot {
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  background: transparent;
+  cursor: pointer;
+}
+.giro-dot[aria-selected="true"] { background: var(--accent); }
+
 .hero {
   position: relative;
   min-height: 100vh;
@@ -660,7 +764,9 @@ html.motion-ready .cm:hover,
 html.motion-ready .foot-soc a:hover,
 html.motion-ready .pcard:hover,
 html.motion-ready .pcard-feat:hover,
-html.motion-ready .icard:hover {
+html.motion-ready .icard:hover,
+html.motion-ready .giro-arrow:hover,
+html.motion-ready .giro-dot:hover {
   transform: none;
 }
 
@@ -668,9 +774,11 @@ html.motion-ready .icard:hover {
   .btn, .cm, .icard, .pcard, .foot-soc a, figure.zoomfig .ph { transition: none; }
   .btn:hover, .btn-solid:hover, .btn-ghost:hover, .cm:hover,
   .icard:hover, .pcard:hover, .pcard-feat:hover, .foot-soc a:hover,
+  .giro-arrow:hover, .giro-dot:hover,
   .pcard:hover .pcard-img.filled img, figure.zoomfig:hover .ph {
     transform: none;
   }
+  .giro-track { transition: none; }
 }
 
 /* ---------- responsive ---------- */
@@ -682,8 +790,15 @@ html.motion-ready .icard:hover {
   .nav-toggle { display: block; }
   /* El mismo llamado ya está en el menú. Si se queda en la barra, tapa el botón de menú. */
   header.nav > .btn { display: none; }
-  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-  .hero-art { max-width: 380px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 28px; }
+  .hero-art { max-width: 250px; }
+  .hero-art .ph { max-height: 210px; }
+  .hero-art .badge { width: 96px; height: 96px; bottom: 10px; left: 10px; font-size: 0.8rem; }
+  .hero .tag { margin-bottom: 16px; }
+  .hero-copy .eyebrow { margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(3.1rem, 13vw, 4.4rem); }
+  .hero-video-slot { margin-top: 14px; min-height: 0; padding: 10px 12px; }
+  .giro-frame.hero { padding-bottom: 108px; }
   .who-grid, .story-row { grid-template-columns: 1fr; gap: 40px; }
   .story-row.rev { direction: ltr; }
   .impact-cards { grid-template-columns: 1fr; }
@@ -701,6 +816,12 @@ html.motion-ready .icard:hover {
   .stats { gap: 32px; }
   .gal-grid { grid-template-columns: 1fr; }
   .g1, .g2, .g3, .g4, .g5 { grid-column: span 1; }
+  .giro-controls { gap: 8px; padding: 0 12px; }
+  .giro-arrow { letter-spacing: .08em; padding: .75em .7em; }
+  .hero-video-slot { max-width: none; }
+  .giro-products { padding: 88px 0 120px; }
+  .giro-products .pcard-img { height: 118px; }
+  .giro-products .pcard { padding-bottom: 18px; }
 }
 
 .mobile-menu {

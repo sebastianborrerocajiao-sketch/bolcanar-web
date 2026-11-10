@@ -42,19 +42,11 @@
     <a href="#contacto" class="btn btn-solid">Reserva tu frasco</a>
   </div>
 
-  <section class="hero" id="hero">
-    <!--
-      VIDEO DE HÉROE — placeholder vacío. El archivo no está en el repositorio.
-      Cuando exista: loop mudo, 6 a 10 segundos, menos de 5 MB.
-      Ruta prevista: video/hero.mp4
-      No inventar metraje. Este <template> no se muestra.
-      Para publicarlo, sacar el <video> del template, poner src="video/hero.mp4"
-      y los atributos autoplay muted loop playsinline.
-    -->
-    <template id="hero-video-placeholder">
-      <video muted loop playsinline preload="none" data-src="video/hero.mp4"></video>
-    </template>
+  <section class="giro" id="giro" aria-roledescription="carrusel" aria-label="Inicio de Bolcanar">
+    <div class="giro-viewport" id="giroViewport">
+      <div class="giro-track" id="giroTrack">
 
+  <section class="giro-frame hero" id="hero" aria-label="Héroe">
     <div class="hero-bg"></div>
     <div class="hex-layer"></div>
     <div class="shimmer-layer"></div>
@@ -69,6 +61,18 @@
           <a href="#contacto" class="btn btn-solid">Reserva tu frasco</a>
           <a href="#historia" class="btn btn-ghost">Conoce nuestra historia</a>
         </div>
+        <!--
+          VIDEO DE HÉROE — hueco vacío y visible. El archivo no existe.
+          Cuando exista: loop mudo, 6 a 10 s, menos de 5 MB, ruta video/hero.mp4.
+          No inventar metraje. El <template> no se reproduce.
+        -->
+        <div class="hero-video-slot" data-video-path="video/hero.mp4">
+          <template id="hero-video-placeholder">
+            <video muted loop playsinline preload="none" data-src="video/hero.mp4"></video>
+          </template>
+          <span class="hero-video-kicker">Reservado</span>
+          <span class="hero-video-label">Loop mudo · video/hero.mp4 · aún sin archivo</span>
+        </div>
       </div>
       <div class="hero-art reveal" style="--d:240ms">
         <div class="ph filled"><img src="img/frasco-hero.jpg" width="472" height="666" alt="Frasco de miel oscura Bolcanar con su etiqueta y cucharón sobre madera"></div>
@@ -76,76 +80,9 @@
       </div>
     </div>
 
-    <div class="scroll-cue"><span>Descubre</span><span class="l"></span></div>
   </section>
 
-  <div class="divider"></div>
-
-  <section id="quienes">
-    <div class="wrap who-grid">
-      <div class="who-text">
-        <div class="section-head">
-          <span class="eyebrow reveal">Quiénes somos</span>
-          <h2 class="reveal" style="--d:80ms">Una miel que no se parece a ninguna otra</h2>
-        </div>
-        <p class="drop reveal" style="--d:120ms">Bolcanar nace en los llanos del Vichada, donde la sabana se encuentra con la selva y las abejas trabajan lejos de todo ruido. Somos un emprendimiento artesanal dedicado a una sola cosa, hecha con devoción: una miel oscura, rara y excepcional.</p>
-        <p class="reveal" style="--d:180ms">Nuestra miel tiene el color profundo del arce y un carácter intenso que sorprende al primer instante. No es la miel dorada de siempre; es el fruto de una tierra indómita y de un proceso paciente, hecho a mano y sin prisas.</p>
-        <p class="reveal" style="--d:240ms">Cada frasco de Bolcanar es una pieza limitada. Cosechamos en pequeños lotes, respetando los tiempos de las abejas y la pureza del ecosistema. Lujo, en su forma más honesta.</p>
-        <div class="stats reveal" style="--d:300ms">
-          <div class="stat"><div class="n">100%</div><div class="k">Pura y natural</div></div>
-          <div class="stat"><div class="n">Vichada</div><div class="k">Origen único</div></div>
-          <div class="stat"><div class="n">Lotes<br>pequeños</div><div class="k">Hecho a mano</div></div>
-        </div>
-      </div>
-      <div class="who-art reveal" style="--d:160ms">
-        <div class="ph filled"><img src="img/miel-panqueques.jpg" width="1024" height="870" alt="Miel oscura de Bolcanar cayendo desde un cucharón sobre un platillo de panqueques"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="story" id="historia">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow">Nuestra historia</span>
-        <h2>De la sabana al frasco</h2>
-        <p class="lead">El recorrido de una miel que guarda, en cada gota, el carácter de una de las tierras más vírgenes de Colombia.</p>
-      </div>
-
-      <div class="story-row">
-        <div class="ph filled reveal"><img src="img/vichada-camino.jpg" width="872" height="768" alt="Vista aérea de un camino recto atravesando un cultivo forestal en Vichada al atardecer"></div>
-        <div class="reveal" style="--d:120ms">
-          <span class="num">01 — La tierra</span>
-          <h3>Donde el horizonte no termina</h3>
-          <p>En el oriente de Colombia, donde el río Orinoco dibuja la frontera y el cielo parece infinito, se extiende Vichada: una tierra de sabanas inmensas, morichales y selvas vírgenes.</p>
-          <p>Es un lugar remoto, casi intacto. Esa lejanía es, precisamente, lo que protege la pureza de nuestra miel.</p>
-        </div>
-      </div>
-
-      <div class="story-row rev">
-        <div class="ph filled reveal"><img src="img/vichada-sendero.jpg" width="960" height="1280" alt="Sendero entre hileras de árboles en un bosque de Vichada cubierto de hojas caídas"></div>
-        <div class="reveal" style="--d:120ms">
-          <span class="num">02 — Las abejas</span>
-          <h3>Un néctar que solo crece aquí</h3>
-          <p>Entre flores silvestres que prosperan en suelos sin intervención, nuestras abejas recogen un néctar distinto. El clima, la luz y la riqueza botánica de la región dan origen a una miel oscura, densa y aromática.</p>
-          <p>En su sabor hay notas que recuerdan a la melaza, la madera y la tierra cálida: un perfil imposible de imitar.</p>
-        </div>
-      </div>
-
-      <div class="story-row">
-        <div class="ph filled reveal"><img src="img/apicultor.jpg" width="825" height="1024" alt="Apicultor sosteniendo un marco de panal cubierto de abejas durante la cosecha"></div>
-        <div class="reveal" style="--d:120ms">
-          <span class="num">03 — El oficio</span>
-          <h3>Paciencia hecha lujo</h3>
-          <p>Producir miel oscura exige tiempo: respetar los ciclos de floración, intervenir lo mínimo y dejar que la naturaleza marque el ritmo.</p>
-          <p>Envasamos a mano, lote por lote. El resultado es una miel que no se parece a ninguna otra y que llega a tu mesa tal como nació: salvaje, íntegra y excepcional.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="productos">
+<section class="giro-frame giro-products" id="productos" aria-label="Productos" aria-hidden="true" inert>
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Productos</span>
@@ -160,8 +97,9 @@
         sin afirmar una preferencia.
 
         VISOR 360° — placeholder vacío en cada tarjeta (.jar-360).
-        Las fotos de la secuencia no existen. No inventarlas y no simular
-        el giro con Motion ni con CSS.
+        Las fotos de la secuencia no existen. No inventarlas y no hacer
+        girar el frasco con Motion ni con CSS. El carrusel de esta página
+        solo cambia entre el héroe y estos cuatro frascos.
         Cuando existan, usar js-cloudimage-360-view. Ejemplo, aún no activo:
           <div class="cloudimage-360"
                data-folder="img/360/500/"
@@ -225,6 +163,83 @@
           <p class="pcard-desc">Formato de volumen para hogares y regalos generosos.</p>
           <a href="#contacto" class="btn btn-ghost">Reservar</a>
         </article>
+      </div>
+    </div>
+  </section>
+
+
+      </div>
+    </div>
+    <div class="giro-controls is-on" id="giroControls">
+      <button type="button" class="giro-arrow giro-prev" data-giro-to="0">← Héroe</button>
+      <div class="giro-dots" role="tablist" aria-label="Frames">
+        <button type="button" class="giro-dot" role="tab" data-giro-to="0" aria-selected="true" aria-label="Frame 1, héroe"></button>
+        <button type="button" class="giro-dot" role="tab" data-giro-to="1" aria-selected="false" aria-label="Frame 2, productos"></button>
+      </div>
+      <button type="button" class="giro-arrow giro-next" data-giro-to="1">Productos →</button>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="quienes">
+    <div class="wrap who-grid">
+      <div class="who-text">
+        <div class="section-head">
+          <span class="eyebrow reveal">Quiénes somos</span>
+          <h2 class="reveal" style="--d:80ms">Una miel que no se parece a ninguna otra</h2>
+        </div>
+        <p class="drop reveal" style="--d:120ms">Bolcanar nace en los llanos del Vichada, donde la sabana se encuentra con la selva y las abejas trabajan lejos de todo ruido. Somos un emprendimiento artesanal dedicado a una sola cosa, hecha con devoción: una miel oscura, rara y excepcional.</p>
+        <p class="reveal" style="--d:180ms">Nuestra miel tiene el color profundo del arce y un carácter intenso que sorprende al primer instante. No es la miel dorada de siempre; es el fruto de una tierra indómita y de un proceso paciente, hecho a mano y sin prisas.</p>
+        <p class="reveal" style="--d:240ms">Cada frasco de Bolcanar es una pieza limitada. Cosechamos en pequeños lotes, respetando los tiempos de las abejas y la pureza del ecosistema. Lujo, en su forma más honesta.</p>
+        <div class="stats reveal" style="--d:300ms">
+          <div class="stat"><div class="n">100%</div><div class="k">Pura y natural</div></div>
+          <div class="stat"><div class="n">Vichada</div><div class="k">Origen único</div></div>
+          <div class="stat"><div class="n">Lotes<br>pequeños</div><div class="k">Hecho a mano</div></div>
+        </div>
+      </div>
+      <div class="who-art reveal" style="--d:160ms">
+        <div class="ph filled"><img src="img/miel-panqueques.jpg" width="1024" height="870" alt="Miel oscura de Bolcanar cayendo desde un cucharón sobre un platillo de panqueques"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="historia">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Nuestra historia</span>
+        <h2>De la sabana al frasco</h2>
+        <p class="lead">El recorrido de una miel que guarda, en cada gota, el carácter de una de las tierras más vírgenes de Colombia.</p>
+      </div>
+
+      <div class="story-row">
+        <div class="ph filled reveal"><img src="img/vichada-camino.jpg" width="872" height="768" alt="Vista aérea de un camino recto atravesando un cultivo forestal en Vichada al atardecer"></div>
+        <div class="reveal" style="--d:120ms">
+          <span class="num">01 — La tierra</span>
+          <h3>Donde el horizonte no termina</h3>
+          <p>En el oriente de Colombia, donde el río Orinoco dibuja la frontera y el cielo parece infinito, se extiende Vichada: una tierra de sabanas inmensas, morichales y selvas vírgenes.</p>
+          <p>Es un lugar remoto, casi intacto. Esa lejanía es, precisamente, lo que protege la pureza de nuestra miel.</p>
+        </div>
+      </div>
+
+      <div class="story-row rev">
+        <div class="ph filled reveal"><img src="img/vichada-sendero.jpg" width="960" height="1280" alt="Sendero entre hileras de árboles en un bosque de Vichada cubierto de hojas caídas"></div>
+        <div class="reveal" style="--d:120ms">
+          <span class="num">02 — Las abejas</span>
+          <h3>Un néctar que solo crece aquí</h3>
+          <p>Entre flores silvestres que prosperan en suelos sin intervención, nuestras abejas recogen un néctar distinto. El clima, la luz y la riqueza botánica de la región dan origen a una miel oscura, densa y aromática.</p>
+          <p>En su sabor hay notas que recuerdan a la melaza, la madera y la tierra cálida: un perfil imposible de imitar.</p>
+        </div>
+      </div>
+
+      <div class="story-row">
+        <div class="ph filled reveal"><img src="img/apicultor.jpg" width="825" height="1024" alt="Apicultor sosteniendo un marco de panal cubierto de abejas durante la cosecha"></div>
+        <div class="reveal" style="--d:120ms">
+          <span class="num">03 — El oficio</span>
+          <h3>Paciencia hecha lujo</h3>
+          <p>Producir miel oscura exige tiempo: respetar los ciclos de floración, intervenir lo mínimo y dejar que la naturaleza marque el ritmo.</p>
+          <p>Envasamos a mano, lote por lote. El resultado es una miel que no se parece a ninguna otra y que llega a tu mesa tal como nació: salvaje, íntegra y excepcional.</p>
+        </div>
       </div>
     </div>
   </section>
