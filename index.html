@@ -527,8 +527,9 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
   text-align:left; font-family:var(--f-display); font-size:1.5rem; font-weight:600; line-height:1.2; }
 .faq-icon{ flex:none; width:34px; height:34px; border:1px solid var(--line); border-radius:50%; display:grid; place-items:center; font-family:var(--f-sans); font-size:1.2rem; }
 .faq-a{ overflow:hidden; }
-.faq-a p{ padding:0 0 22px; color:var(--fg-2); max-width:62ch; }
+.faq-a p, .faq-a .faq-txt{ padding:0 0 22px; color:var(--fg-2); max-width:62ch; }
 .faq-a a{ color:var(--accent); font-weight:600; text-decoration:underline; text-underline-offset:3px; }
+.faq-list{ margin:10px 0 10px 1.1em; } .faq-list li + li{ margin-top:4px; } .faq-list b{ color:var(--fg); font-weight:600; }
 
 /* ---------- 8 · Cierre ---------- */
 .closing{ position:relative; overflow:hidden; isolation:isolate; text-align:center; padding:clamp(120px,16vw,200px) 0; }
@@ -602,6 +603,16 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
 .consent input{ accent-color:var(--c-gold); width:20px; height:20px; margin-top:1px; flex:none; }
 .consent a{ color:var(--c-gold-hi); text-decoration:underline; text-underline-offset:3px; }
 .consent small{ font-size:.78rem; color:var(--fg-2); }
+/* resumen de la reserva con el envío aproximado */
+.r-sum{ margin:4px 0 0; padding:14px 16px; border:1px solid rgba(201,149,69,.35); border-radius:14px; background:rgba(201,149,69,.06); }
+.r-sum > div{ display:flex; justify-content:space-between; gap:12px; padding:4px 0; font-size:.92rem; }
+.r-sum dt{ color:var(--fg-2); } .r-sum dd{ margin:0; text-align:right; font-variant-numeric:tabular-nums; color:var(--fg); }
+.r-sum .tot{ border-top:1px solid rgba(201,149,69,.3); margin-top:4px; padding-top:9px; font-weight:700; }
+.r-sum .tot dt, .r-sum .tot dd{ color:var(--c-gold-hi); }
+.r-hint{ font-size:.8rem; color:var(--fg-2); margin:-4px 0 2px; }
+.field select{ width:100%; font:inherit; font-size:1rem; color:var(--fg); background:rgba(252,250,246,.06); border:1px solid rgba(252,250,246,.2);
+  border-radius:12px; padding:12px 14px; min-height:48px; }
+.field select option{ color:#211B17; }
 .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 /* aviso de privacidad y cookies (una vez por navegador) */
 .cookie-note{ position:fixed; z-index:57; left:max(var(--gutter), env(safe-area-inset-left)); bottom:calc(18px + env(safe-area-inset-bottom));
@@ -808,13 +819,15 @@ h3{ letter-spacing:-.006em; }
     const WHATSAPP = "573024576797";
     const EMAIL = "bolcanarmieles@gmail.com";
     const INSTAGRAM = "mieles.bolcanar";
-    // Reservas por correo: llegan a RESERVAS_EMAIL por medio de FormSubmit (formsubmit.co, sin cuenta). La primera
-    // reserva manda a ese correo un mensaje "Confirm your email": hay que abrirlo y tocar "Activate Form" una vez.
+    // Respaldo de reservas por correo: si la hoja de Google no responde, la reserva llega a RESERVAS_EMAIL por medio de
+    // FormSubmit (formsubmit.co, sin cuenta). La primera vez FormSubmit manda a ese correo un mensaje "Confirm your
+    // email": hay que abrirlo y tocar "Activate Form" una vez.
     const RESERVAS_EMAIL = EMAIL;
-    // Registro de reservas y clientes en Google Sheets: aplicación web de Apps Script (scripts/apps-script-reservas.gs,
-    // pasos en docs/GOOGLE-SHEETS-CLIENTES.md). Cada reserva se agrega como una fila, con la columna "Acepta
-    // novedades" para saber a quién se le pueden enviar ofertas. Vacío = no se envía nada. Debe terminar en /exec.
-    const SHEETS_URL = "";
+    // Reservas y clientes en Google Sheets: aplicación web de Apps Script (scripts/apps-script-reservas.gs, pasos en
+    // docs/GOOGLE-SHEETS-CLIENTES.md), publicada desde bolcanarmieles@gmail.com. Cada reserva se agrega como una fila
+    // (con "Acepta novedades" para saber a quién se le pueden enviar ofertas), el cliente recibe el correo de su compra
+    // y Bolcanar recibe el aviso por correo. Vacío = se usa solo FormSubmit. Debe terminar en /exec.
+    const SHEETS_URL = "https://script.google.com/macros/s/AKfycbweaIHOuoL2YWD8air2sr4sRpkE7hHn5DbFRA2ZtFhqRa784rV9er5SKJCn6oWvtP_I/exec";
     // Formas de pago en "Tu reserva" (pasos en docs/ACTIVAR-RESERVAS-Y-PAGOS.md):
     // · PSE (la principal): un link de pago REUTILIZABLE de monto abierto, donde la persona escribe el valor y elige
     //   PSE y su banco. Sirve "Tu link" de Mercado Pago o un link de Wompi o Bold con "monto definido por el pagador".
@@ -1979,7 +1992,7 @@ h3{ letter-spacing:-.006em; }
             </div>
             <${Reveal} className="assure" delay=${0.1}>
               <div>${I.chat()}<p><b>Reserva en línea</b><span>Eliges tus frascos y escribes tus datos de entrega; tu reserva nos llega al instante.</span></p></div>
-              <div>${I.truck()}<p><b>${shopifyReady() ? "Paga con PSE, tarjeta o contra entrega" : "Paga con PSE o contra entrega"}</b><span>Tú eliges. Te contactamos para confirmar disponibilidad y entrega.</span></p></div>
+              <div>${I.truck()}<p><b>${shopifyReady() ? "Paga con PSE, tarjeta o contra entrega" : "Paga con PSE o contra entrega"}</b><span>Envíos a toda Colombia desde Bogotá: al reservar ves el costo aproximado del envío y el tiempo de entrega.</span></p></div>
               <div>${I.hex()}<p><b>Lotes pequeños</b><span>Cosechada a mano en lotes pequeños. Cada lote es limitado.</span></p></div>
             <//>
           </div>
@@ -2018,6 +2031,36 @@ h3{ letter-spacing:-.006em; }
     // cómo pagar (PSE, Shopify si está activa, o contra entrega). La reserva llega al correo de Bolcanar
     // (FormSubmit) con un número de reserva. Con PSE, la página muestra después el valor exacto y el botón al link de
     // pago; con Shopify, pasa al pago de Shopify con los frascos ya en el carrito. El sitio no guarda los datos.
+    // ENVÍOS APROXIMADOS desde Bogotá (Cra 72B #121-51, Suba), por departamento. Valores de referencia de
+    // transportadoras para paquetes de 1–2 kg (Coordinadora 2026: local ≈ $9.000, regional ≈ $10.450, nacional ≈
+    // $17.830, lejana ≈ $25.750–27.560, especial ≈ $42.150), redondeados hacia arriba por el empaque. "base" cubre
+    // hasta 2 frascos; cada frasco adicional suma "extra". "dias": días hábiles después de confirmar el pedido.
+    // AJUSTAR aquí cuando Bolcanar tenga sus tarifas reales.
+    const ENVIO_ZONAS = {
+      local:    { nombre: "Bogotá",                  base: 10000, extra: 3000,  dias: [1, 2] },
+      regional: { nombre: "Cundinamarca",            base: 12000, extra: 3500,  dias: [2, 3] },
+      nacional: { nombre: "Ciudades principales",    base: 18000, extra: 5000,  dias: [2, 4] },
+      lejana:   { nombre: "Resto del país",          base: 26000, extra: 7000,  dias: [3, 6] },
+      especial: { nombre: "Zonas de difícil acceso", base: 42000, extra: 10000, dias: [5, 10] },
+    };
+    const DEPARTAMENTOS = [
+      ["Amazonas", "especial"], ["Antioquia", "nacional"], ["Arauca", "lejana"], ["Atlántico", "nacional"],
+      ["Bogotá D.C.", "local"], ["Bolívar", "nacional"], ["Boyacá", "nacional"], ["Caldas", "nacional"],
+      ["Caquetá", "lejana"], ["Casanare", "lejana"], ["Cauca", "lejana"], ["Cesar", "lejana"], ["Chocó", "lejana"],
+      ["Córdoba", "lejana"], ["Cundinamarca", "regional"], ["Guainía", "especial"], ["Guaviare", "especial"],
+      ["Huila", "nacional"], ["La Guajira", "lejana"], ["Magdalena", "lejana"], ["Meta", "nacional"], ["Nariño", "lejana"],
+      ["Norte de Santander", "nacional"], ["Putumayo", "lejana"], ["Quindío", "nacional"], ["Risaralda", "nacional"],
+      ["San Andrés y Providencia", "especial"], ["Santander", "nacional"], ["Sucre", "lejana"], ["Tolima", "nacional"],
+      ["Valle del Cauca", "nacional"], ["Vaupés", "especial"], ["Vichada", "especial"],
+    ];
+    const diasTexto = (d) => `${d[0]} a ${d[1]} días hábiles`;
+    // envío aproximado para un departamento y una cantidad de frascos (null si falta el departamento)
+    const envioPara = (dep, n) => {
+      const fila = DEPARTAMENTOS.find(([nombre]) => nombre === dep);
+      if (!fila || !n) return null;
+      const z = ENVIO_ZONAS[fila[1]];
+      return { zona: z.nombre, costo: z.base + Math.max(0, n - 2) * z.extra, entrega: diasTexto(z.dias) };
+    };
     const pseLink = () => /^https:\/\/[^\s"'<>]+$/.test(PSE.link || "") ? PSE.link : "";
     const pseVia = () => {   // nombre de la pasarela, sacado del link
       const l = pseLink();
@@ -2047,15 +2090,17 @@ h3{ letter-spacing:-.006em; }
       : "PSE: enviarle el link de pago por WhatsApp";
     const payShort = (pago) => pago === "entrega" ? "contra entrega" : pago === "shopify" ? "en línea con tarjeta o PSE" : "con PSE";
     const sendReservaEmail = async (list, d) => {
-      const total = list.reduce((s, it) => s + it.p.price * it.q, 0);
       const body = {
-        _subject: `Nueva reserva ${d.ref} · ${d.nombre} · ${fmt(total)}`,
+        _subject: `Nueva reserva ${d.ref} · ${d.nombre} · ${fmt(d.totalConEnvio)}`,
         _template: "table",
         Reserva: d.ref,
         Pedido: list.map(({ p, q }) => `${q} × ${p.size} (${fmt(p.price * q)})`).join(" · "),
-        Total: fmt(total),
+        "Subtotal frascos": fmt(d.subtotal),
+        "Envío aproximado": `${fmt(d.envio)} (${d.zona})`,
+        "Total aproximado": fmt(d.totalConEnvio),
+        "Entrega estimada": d.entrega,
         Pago: payLabel(d.pago),
-        Nombre: d.nombre, Celular: d.celular, Ciudad: d.ciudad, "Dirección": d.direccion,
+        Nombre: d.nombre, Celular: d.celular, Departamento: d.departamento, Ciudad: d.ciudad, "Dirección": d.direccion,
         ...(d.notas ? { Indicaciones: d.notas } : {}),
         ...(d.correo ? { Correo: d.correo, _replyto: d.correo } : {}),
         "Autorización de datos": "Sí, para gestionar la reserva (política de privacidad, Ley 1581 de 2012)",
@@ -2074,32 +2119,40 @@ h3{ letter-spacing:-.006em; }
         return r.ok && String(j.success) === "true";
       } catch (_) { return false; } finally { clearTimeout(t); }
     };
-    // Copia de la reserva a Google Sheets (si SHEETS_URL está puesta). Va aparte del correo y no frena la reserva:
-    // petición simple (text/plain, sin preflight) con los datos en el cuerpo, nunca en la URL.
+    // Reserva a Google Sheets (si SHEETS_URL está puesta): es el camino principal. La hoja guarda la fila, le envía
+    // al cliente el correo de su compra y le avisa a Bolcanar por correo (scripts/apps-script-reservas.gs).
+    // Petición simple (text/plain, sin preflight) con los datos en el cuerpo, nunca en la URL; responde {ok:true}.
     const sheetsReady = () => /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(SHEETS_URL);
-    const sendToSheet = (list, d) => {
-      if (!sheetsReady()) return;
-      const total = list.reduce((s, it) => s + it.p.price * it.q, 0);
+    const sendToSheet = async (list, d) => {
+      if (!sheetsReady()) return false;
       const digits = d.celular.replace(/\D/g, ""), wa = digits.length === 10 && digits[0] === "3" ? "57" + digits : digits;
       const row = {
         reserva: d.ref, nombre: d.nombre, celular: d.celular, whatsapp: wa ? `https://wa.me/${wa}` : "", correo: d.correo,
-        ciudad: d.ciudad, direccion: d.direccion, notas: d.notas,
-        pedido: list.map(({ p, q }) => `${q} × ${p.size}`).join(" · "), total, pago: payShort(d.pago),
-        novedades: !!d.novedades, origen: location.hostname || "bolcanar.com",
+        departamento: d.departamento, ciudad: d.ciudad, direccion: d.direccion, notas: d.notas,
+        pedido: list.map(({ p, q }) => `${q} × ${p.size}`).join(" · "),
+        items: list.map(({ p, q }) => ({ q, tam: p.size, nombre: p.name, precio: p.price })),
+        subtotal: d.subtotal, envio: d.envio, total: d.totalConEnvio, zona: d.zona, entrega: d.entrega,
+        pago: payShort(d.pago), novedades: !!d.novedades, origen: location.hostname || "bolcanar.com",
       };
+      const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 25000);
       try {
-        fetch(SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(row), keepalive: true }).catch(() => {});
-      } catch (_) {}
+        const r = await fetch(SHEETS_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(row), signal: ctl.signal });
+        const j = await r.json().catch(() => ({}));
+        return r.ok && j.ok === true;
+      } catch (_) { return false; } finally { clearTimeout(t); }
     };
     const reserveMsg = (list, d) => [
       `Hola Bolcanar, quiero reservar (reserva ${d.ref}):`,
       ...list.map(({ p, q }) => `• ${q} × ${p.size} (${fmt(p.price * q)})`),
-      `Total: ${fmt(list.reduce((s, it) => s + it.p.price * it.q, 0))}`,
+      `Subtotal: ${fmt(d.subtotal)}`,
+      `Envío aproximado: ${fmt(d.envio)} (${d.zona}, ${d.entrega})`,
+      `Total aproximado: ${fmt(d.totalConEnvio)}`,
       "",
       "Mis datos:",
       `Nombre: ${d.nombre}`,
       `Celular: ${d.celular}`,
-      `Ciudad: ${d.ciudad}`,
+      d.correo ? `Correo: ${d.correo}` : null,
+      `Ciudad: ${d.ciudad}, ${d.departamento}`,
       `Dirección: ${d.direccion}`,
       d.notas ? `Indicaciones: ${d.notas}` : null,
       `Pago: ${payShort(d.pago)}`,
@@ -2122,8 +2175,10 @@ h3{ letter-spacing:-.006em; }
       // estado del envío: "" (llenando) · "sending" · { ok: true, … } (enviada) · { ok: false, wa } (falló)
       const [status, setStatus] = useState("");
       const [copied, setCopied] = useState(false);
+      const [dep, setDep] = useState("");   // departamento de entrega: define el envío aproximado
       const list = PRODUCTS.filter((p) => items[p.id] && items[p.id].q > 0).map((p) => items[p.id]);
       const n = list.reduce((s, it) => s + it.q, 0), total = list.reduce((s, it) => s + it.p.price * it.q, 0);
+      const env = envioPara(dep, n);
       const toShopify = pago === "shopify" && shopifyReady();
       const toPse = pago === "pse" && !!pseLink();
       useEffect(() => {
@@ -2136,7 +2191,7 @@ h3{ letter-spacing:-.006em; }
         const key = (e) => {
           if (e.key === "Escape") { e.preventDefault(); onClose(); return; }
           if (e.key !== "Tab" || !box.current) return;   // el foco no sale del panel
-          const els = [...box.current.querySelectorAll("button, [href], input, textarea")].filter((n) => !n.disabled);
+          const els = [...box.current.querySelectorAll("button, [href], input, select, textarea")].filter((n) => !n.disabled);
           const first = els[0], last = els[els.length - 1];
           if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
           else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
@@ -2152,17 +2207,24 @@ h3{ letter-spacing:-.006em; }
         if (!n || status === "sending") return;
         const f = new FormData(e.currentTarget), v = (k) => String(f.get(k) || "").trim();
         const ref = newRef();
-        const d = { ref, nombre: v("nombre"), celular: v("celular"), correo: v("correo"), ciudad: v("ciudad"), direccion: v("direccion"), notas: v("notas"), pago,
-          novedades: f.get("novedades") === "si" };
         const snapshot = list.map((it) => ({ ...it })), checkout = toShopify ? shopifyCheckout(snapshot, ref) : null;
-        const sum = snapshot.reduce((s, it) => s + it.p.price * it.q, 0);
+        const nFrascos = snapshot.reduce((s, it) => s + it.q, 0), subtotal = snapshot.reduce((s, it) => s + it.p.price * it.q, 0);
+        const e2 = envioPara(v("departamento"), nFrascos) || { zona: "Por confirmar", costo: 0, entrega: "por confirmar" };
+        const sum = subtotal + e2.costo;
+        const d = { ref, nombre: v("nombre"), celular: v("celular"), correo: v("correo"), departamento: v("departamento"), ciudad: v("ciudad"),
+          direccion: v("direccion"), notas: v("notas"), pago, novedades: f.get("novedades") === "si",
+          subtotal, envio: e2.costo, totalConEnvio: sum, zona: e2.zona, entrega: e2.entrega };
+        const resumen = { ref, pago, n: nFrascos, sum, total: fmt(sum), subtotal: fmt(subtotal), envio: fmt(e2.costo), entrega: e2.entrega,
+          correo: d.correo, celular: d.celular, ciudad: d.ciudad, msg: reserveMsg(snapshot, d) };
         // trampa para robots: el campo "empresa" está oculto; si viene lleno, no se envía nada
-        if (v("empresa")) { setStatus({ ok: true, ref, pago: "entrega", n: snapshot.reduce((s, it) => s + it.q, 0), sum, total: fmt(sum) }); return; }
+        if (v("empresa")) { setStatus({ ok: true, ...resumen, pago: "entrega" }); return; }
         setStatus("sending");
-        sendToSheet(snapshot, d);   // copia en Google Sheets (no espera respuesta)
-        const ok = await sendReservaEmail(snapshot, d);
+        // 1) hoja de Google: guarda la reserva, le envía el correo al cliente y le avisa a Bolcanar
+        // 2) si la hoja no responde, la reserva llega a Bolcanar por FormSubmit (respaldo)
+        const mailed = await sendToSheet(snapshot, d);
+        const ok = mailed || await sendReservaEmail(snapshot, d);
         if (checkout) { onSent(); window.location.href = checkout; return; }   // al pago de Shopify (la reserva ya llegó por correo, o no: Shopify avisa del pedido)
-        if (ok) { onSent(); setStatus({ ok: true, ref, pago, n: snapshot.reduce((s, it) => s + it.q, 0), sum, total: fmt(sum) }); }
+        if (ok) { onSent(); setStatus({ ok: true, ...resumen, mailed }); }
         else setStatus({ ok: false, wa: waLink(reserveMsg(snapshot, d)) });
       };
       const amountRef = useRef(null);
@@ -2173,7 +2235,14 @@ h3{ letter-spacing:-.006em; }
       };
       // panel después de enviar: con PSE muestra cómo pagar; contra entrega, qué sigue
       const done = (s) => {
-        const head = html`<p><b>Tu número de reserva es <span className="r-ref">${s.ref}</span>: ${s.n} ${s.n === 1 ? "frasco" : "frascos"} por ${s.total}.</b></p>`;
+        const head = html`<p><b>Tu número de reserva es <span className="r-ref">${s.ref}</span>: ${s.n} ${s.n === 1 ? "frasco" : "frascos"}.</b></p>
+          <dl className="r-sum">
+            <div><dt>Frascos</dt><dd>${s.subtotal}</dd></div>
+            <div><dt>Envío aproximado a ${s.ciudad}</dt><dd>${s.envio}</dd></div>
+            <div className="tot"><dt>Total aproximado</dt><dd>${s.total}</dd></div>
+            <div><dt>Entrega estimada</dt><dd>${s.entrega}</dd></div>
+          </dl>
+          <p>${s.mailed ? html`Te enviamos el resumen de tu compra a <b>${s.correo}</b> y te escribiremos` : "Te escribiremos"} por WhatsApp al <b>${s.celular}</b> para confirmar el pedido y el valor exacto del envío.</p>`;
         if (s.pago === "pse" && pseLink()) return html`${head}
           <div className="r-pay">
             <div className="r-amount">
@@ -2194,12 +2263,15 @@ h3{ letter-spacing:-.006em; }
         if (s.pago === "pse") return html`${head}
           <p>Te enviamos por WhatsApp el link para pagar ${s.total} con PSE desde tu banco. Si quieres pagar ya, pídelo aquí.</p>
           <div className="r-actions">
-            <${Btn} href=${waLink(`Hola Bolcanar, hice la reserva ${s.ref} por ${s.total} y quiero pagar con PSE. ¿Me envían el link de pago?`)} target="_blank" rel="noopener" variant="wa" block>${I.wa(18)}Pedir el link de pago<//>
+            <${Btn} href=${waLink(`${s.msg}\n\nQuiero pagar con PSE. ¿Me envían el link de pago?`)} target="_blank" rel="noopener" variant="wa" block>${I.wa(18)}Pedir el link de pago<//>
             <${Btn} variant="ghost" block onClick=${onClose}>Cerrar<//>
           </div>`;
         return html`${head}
-          <p>Te contactamos a tu celular para confirmar la disponibilidad y la entrega. Pagas cuando recibes tu pedido.</p>
-          <div className="r-actions"><${Btn} variant="gold" block onClick=${onClose}>Listo<//></div>`;
+          <p>Pagas cuando recibes tu pedido. Si quieres que te atendamos más rápido, envíanos tu reserva por WhatsApp.</p>
+          <div className="r-actions">
+            <${Btn} href=${waLink(s.msg)} target="_blank" rel="noopener" variant="wa" block>${I.wa(18)}Enviar mi reserva por WhatsApp<//>
+            <${Btn} variant="ghost" block onClick=${onClose}>Listo<//>
+          </div>`;
       };
       const field = (id, label, props = {}) => html`<div className="field">
           <label htmlFor=${"r-" + id}>${label}${props.required ? "" : html` <small>(opcional)</small>`}</label>
@@ -2229,13 +2301,21 @@ h3{ letter-spacing:-.006em; }
               })}
             </div>
             <div className="r-total" aria-live="polite">
-              <span>Total${n ? ` · ${n} ${n === 1 ? "frasco" : "frascos"}` : ""}</span><b>${fmt(total)}</b>
+              <span>Frascos${n ? ` · ${n}` : ""}</span><b>${fmt(total)}</b>
             </div>
             ${!n && html`<p className="r-empty">Elige al menos un frasco con el botón +.</p>`}
             <form className="rform" onSubmit=${submit}>
               ${field("nombre", "Nombre completo", { required: true, attrs: { autoComplete: "name" } })}
               ${field("celular", "Celular", { required: true, attrs: { type: "tel", inputMode: "tel", autoComplete: "tel", pattern: "[0-9\\s+\\(\\)\\-]{7,20}", title: "Escribe tu número de celular (solo números)" } })}
-              ${field("correo", "Correo electrónico", { attrs: { type: "email", inputMode: "email", autoComplete: "email" } })}
+              ${field("correo", "Correo electrónico", { required: true, attrs: { type: "email", inputMode: "email", autoComplete: "email", "aria-describedby": "r-correo-h" } })}
+              <p className="r-hint" id="r-correo-h">Te enviamos ahí el resumen de tu compra, el costo del envío y el tiempo de entrega.</p>
+              <div className="field">
+                <label htmlFor="r-departamento">Departamento</label>
+                <select id="r-departamento" name="departamento" required value=${dep} onChange=${(e) => setDep(e.target.value)} autoComplete="address-level1">
+                  <option value="" disabled>Elige tu departamento</option>
+                  ${DEPARTAMENTOS.map(([nombre]) => html`<option key=${nombre} value=${nombre}>${nombre}</option>`)}
+                </select>
+              </div>
               ${field("ciudad", "Ciudad o municipio", { required: true, attrs: { autoComplete: "address-level2" } })}
               ${field("direccion", "Dirección de entrega", { required: true, attrs: { autoComplete: "street-address" } })}
               ${field("notas", "Barrio o indicaciones", { textarea: true })}
@@ -2245,6 +2325,14 @@ h3{ letter-spacing:-.006em; }
                   <input type="radio" name="pago" value=${id} checked=${pago === id} onChange=${() => setPago(id)} />
                   <span><b>${t}</b><span>${d}</span></span></label>`)}
               </fieldset>
+              ${/* Resumen con el envío aproximado según el departamento */ ""}
+              <dl className="r-sum" aria-live="polite">
+                <div><dt>Frascos</dt><dd>${fmt(total)}</dd></div>
+                <div><dt>Envío aproximado${env ? ` · ${env.zona}` : ""}</dt><dd>${env ? fmt(env.costo) : "Elige tu departamento"}</dd></div>
+                <div className="tot"><dt>Total aproximado</dt><dd>${fmt(total + (env ? env.costo : 0))}</dd></div>
+                <div><dt>Entrega estimada</dt><dd>${env ? env.entrega : "—"}</dd></div>
+              </dl>
+              <p className="r-hint">Enviamos desde Bogotá. El envío es aproximado: te confirmamos el valor exacto por WhatsApp antes de despachar.</p>
               <div className="hp" aria-hidden="true"><label>Empresa <input name="empresa" tabIndex="-1" autoComplete="off" /></label></div>
               <label className="consent">
                 <input type="checkbox" name="autorizo" required />
@@ -2651,7 +2739,9 @@ h3{ letter-spacing:-.006em; }
        ===================================================================== */
     const FAQS = [
       ["¿Cómo compro?", "Elige el tamaño y la cantidad y toca Reservar; en tu reserva puedes sumar frascos de otros tamaños. Escribe tus datos de entrega y elige cómo pagar: ya mismo en línea con PSE, desde tu cuenta bancaria, o contra entrega. Tu reserva nos llega por correo con su número y te contactamos para confirmar disponibilidad y entrega antes de cerrar el pedido."],
-      ["¿Hacen envíos a mi ciudad?", "Escríbenos con tu ciudad y te confirmamos las opciones de entrega disponibles y su costo antes de que pagues."],
+      ["¿Hacen envíos a mi ciudad?", html`Sí, enviamos a toda Colombia desde Bogotá. Costo aproximado del envío para hasta 2 frascos, y tiempo de entrega después de confirmar el pedido:
+        <ul className="faq-list">${Object.values(ENVIO_ZONAS).map((z) => html`<li key=${z.nombre}><b>${z.nombre}:</b> ${fmt(z.base)} · ${diasTexto(z.dias)}</li>`)}</ul>
+        Cada frasco adicional suma un poco al envío. En “Tu reserva” ves el valor según tu departamento, y te confirmamos el valor exacto por WhatsApp antes de despachar.`],
       ["¿Qué miel es?", "Miel de acacia de los llanos del Vichada, Colombia, cosechada a mano en lotes pequeños, sin químicos y de familias apicultoras."],
       ["¿Qué tamaños hay?", "Tres: Pequeño de 360 g ($25.000), Mediano de 500 g ($30.000) y Familiar de 700 g ($40.000)."],
       ["¿Por qué los lotes son limitados?", "Porque cosechamos a mano y en lotes pequeños. Cuando un lote se acaba, esperamos la próxima cosecha."],
@@ -2681,7 +2771,7 @@ h3{ letter-spacing:-.006em; }
                 <${AnimatePresence} initial=${false}>
                   ${open === i && html`<${motion.div} className="faq-a" id=${"fa" + i} role="region" aria-labelledby=${"fq" + i}
                     initial=${{ height: 0, opacity: 0 }} animate=${{ height: "auto", opacity: 1 }} exit=${{ height: 0, opacity: 0 }}
-                    transition=${{ duration: 0.38, ease: EASE }}><p>${a}</p><//>`}
+                    transition=${{ duration: 0.38, ease: EASE }}><div className="faq-txt">${a}</div><//>`}
                 <//>
               </div>`)}
             <//>
