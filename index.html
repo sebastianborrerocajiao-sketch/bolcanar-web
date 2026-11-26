@@ -597,6 +597,23 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
 .pay-opt input{ accent-color:var(--c-gold); width:18px; height:18px; margin-top:2px; flex:none; }
 .pay-opt b{ display:block; font-size:.95rem; } .pay-opt span span{ display:block; font-size:.86rem; color:var(--fg-2); margin-top:2px; }
 .r-note{ font-size:.8rem; color:var(--fg-2); margin:2px 0 4px; }
+/* autorización de datos (obligatoria) y campo trampa para robots */
+.consent{ display:flex; gap:12px; align-items:flex-start; font-size:.88rem; line-height:1.5; color:var(--fg-2); cursor:pointer; }
+.consent input{ accent-color:var(--c-gold); width:20px; height:20px; margin-top:1px; flex:none; }
+.consent a{ color:var(--c-gold-hi); text-decoration:underline; text-underline-offset:3px; }
+.consent small{ font-size:.78rem; color:var(--fg-2); }
+.hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+/* aviso de privacidad y cookies (una vez por navegador) */
+.cookie-note{ position:fixed; z-index:57; left:max(var(--gutter), env(safe-area-inset-left)); bottom:calc(18px + env(safe-area-inset-bottom));
+  width:min(420px, calc(100vw - 2 * var(--gutter) - 72px)); display:flex; flex-direction:column; gap:12px; padding:16px 18px;
+  border-radius:var(--r-lg); background:rgba(23,18,15,.96); color:var(--c-white); border:1px solid rgba(201,149,69,.35);
+  box-shadow:0 20px 40px -18px rgba(0,0,0,.7); font-size:.86rem; line-height:1.5; }
+.cookie-note b{ color:var(--c-gold-hi); }
+.cookie-note div{ display:flex; gap:14px; align-items:center; justify-content:flex-end; flex-wrap:wrap; }
+.cookie-note a{ color:#E3D8C4; text-decoration:underline; text-underline-offset:3px; }
+.cookie-note .btn{ min-height:40px; padding:.6em 1.3em; font-size:.72rem; }
+@media (max-width:720px){ .has-sticky .cookie-note{ bottom:calc(88px + env(safe-area-inset-bottom)); } }
+.foot-legal a{ text-decoration:underline; text-underline-offset:3px; }
 .r-done{ display:flex; flex-direction:column; gap:14px; margin-top:8px; }
 .r-done p{ color:var(--fg-2); } .r-done p b{ color:var(--fg); font-weight:600; }
 .r-actions{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
@@ -794,6 +811,10 @@ h3{ letter-spacing:-.006em; }
     // Reservas por correo: llegan a RESERVAS_EMAIL por medio de FormSubmit (formsubmit.co, sin cuenta). La primera
     // reserva manda a ese correo un mensaje "Confirm your email": hay que abrirlo y tocar "Activate Form" una vez.
     const RESERVAS_EMAIL = EMAIL;
+    // Registro de reservas y clientes en Google Sheets: aplicación web de Apps Script (scripts/apps-script-reservas.gs,
+    // pasos en docs/GOOGLE-SHEETS-CLIENTES.md). Cada reserva se agrega como una fila, con la columna "Acepta
+    // novedades" para saber a quién se le pueden enviar ofertas. Vacío = no se envía nada. Debe terminar en /exec.
+    const SHEETS_URL = "";
     // Formas de pago en "Tu reserva" (pasos en docs/ACTIVAR-RESERVAS-Y-PAGOS.md):
     // · PSE (la principal): un link de pago REUTILIZABLE de monto abierto, donde la persona escribe el valor y elige
     //   PSE y su banco. Sirve "Tu link" de Mercado Pago o un link de Wompi o Bold con "monto definido por el pagador".
@@ -2037,6 +2058,8 @@ h3{ letter-spacing:-.006em; }
         Nombre: d.nombre, Celular: d.celular, Ciudad: d.ciudad, "Dirección": d.direccion,
         ...(d.notas ? { Indicaciones: d.notas } : {}),
         ...(d.correo ? { Correo: d.correo, _replyto: d.correo } : {}),
+        "Autorización de datos": "Sí, para gestionar la reserva (política de privacidad, Ley 1581 de 2012)",
+        "Novedades y ofertas": d.novedades ? "Sí, acepta recibirlas" : "No",
       };
       const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 15000);
       try {
@@ -2044,8 +2067,29 @@ h3{ letter-spacing:-.006em; }
           method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(body), signal: ctl.signal,
         });
         const j = await r.json().catch(() => ({}));
+        // La primera vez FormSubmit responde "This form needs Activation": hay que abrir el correo de FormSubmit en
+        // RESERVAS_EMAIL y tocar "Activate Form" (una sola vez). Mientras tanto, la página ofrece WhatsApp.
+        if (String(j.success) !== "true" && /activ/i.test(String(j.message || "")))
+          console.warn("Reservas por correo: falta activar FormSubmit. Abre el correo de FormSubmit en " + RESERVAS_EMAIL + " y toca 'Activate Form'.");
         return r.ok && String(j.success) === "true";
       } catch (_) { return false; } finally { clearTimeout(t); }
+    };
+    // Copia de la reserva a Google Sheets (si SHEETS_URL está puesta). Va aparte del correo y no frena la reserva:
+    // petición simple (text/plain, sin preflight) con los datos en el cuerpo, nunca en la URL.
+    const sheetsReady = () => /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(SHEETS_URL);
+    const sendToSheet = (list, d) => {
+      if (!sheetsReady()) return;
+      const total = list.reduce((s, it) => s + it.p.price * it.q, 0);
+      const digits = d.celular.replace(/\D/g, ""), wa = digits.length === 10 && digits[0] === "3" ? "57" + digits : digits;
+      const row = {
+        reserva: d.ref, nombre: d.nombre, celular: d.celular, whatsapp: wa ? `https://wa.me/${wa}` : "", correo: d.correo,
+        ciudad: d.ciudad, direccion: d.direccion, notas: d.notas,
+        pedido: list.map(({ p, q }) => `${q} × ${p.size}`).join(" · "), total, pago: payShort(d.pago),
+        novedades: !!d.novedades, origen: location.hostname || "bolcanar.com",
+      };
+      try {
+        fetch(SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(row), keepalive: true }).catch(() => {});
+      } catch (_) {}
     };
     const reserveMsg = (list, d) => [
       `Hola Bolcanar, quiero reservar (reserva ${d.ref}):`,
@@ -2108,10 +2152,14 @@ h3{ letter-spacing:-.006em; }
         if (!n || status === "sending") return;
         const f = new FormData(e.currentTarget), v = (k) => String(f.get(k) || "").trim();
         const ref = newRef();
-        const d = { ref, nombre: v("nombre"), celular: v("celular"), correo: v("correo"), ciudad: v("ciudad"), direccion: v("direccion"), notas: v("notas"), pago };
+        const d = { ref, nombre: v("nombre"), celular: v("celular"), correo: v("correo"), ciudad: v("ciudad"), direccion: v("direccion"), notas: v("notas"), pago,
+          novedades: f.get("novedades") === "si" };
         const snapshot = list.map((it) => ({ ...it })), checkout = toShopify ? shopifyCheckout(snapshot, ref) : null;
         const sum = snapshot.reduce((s, it) => s + it.p.price * it.q, 0);
+        // trampa para robots: el campo "empresa" está oculto; si viene lleno, no se envía nada
+        if (v("empresa")) { setStatus({ ok: true, ref, pago: "entrega", n: snapshot.reduce((s, it) => s + it.q, 0), sum, total: fmt(sum) }); return; }
         setStatus("sending");
+        sendToSheet(snapshot, d);   // copia en Google Sheets (no espera respuesta)
         const ok = await sendReservaEmail(snapshot, d);
         if (checkout) { onSent(); window.location.href = checkout; return; }   // al pago de Shopify (la reserva ya llegó por correo, o no: Shopify avisa del pedido)
         if (ok) { onSent(); setStatus({ ok: true, ref, pago, n: snapshot.reduce((s, it) => s + it.q, 0), sum, total: fmt(sum) }); }
@@ -2197,10 +2245,19 @@ h3{ letter-spacing:-.006em; }
                   <input type="radio" name="pago" value=${id} checked=${pago === id} onChange=${() => setPago(id)} />
                   <span><b>${t}</b><span>${d}</span></span></label>`)}
               </fieldset>
+              <div className="hp" aria-hidden="true"><label>Empresa <input name="empresa" tabIndex="-1" autoComplete="off" /></label></div>
+              <label className="consent">
+                <input type="checkbox" name="autorizo" required />
+                <span>Autorizo a Bolcanar a usar mis datos solo para gestionar mi reserva, según la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span>
+              </label>
+              <label className="consent">
+                <input type="checkbox" name="novedades" value="si" />
+                <span>Quiero recibir novedades, nuevas cosechas y ofertas de Bolcanar por WhatsApp o correo <small>(opcional)</small>.</span>
+              </label>
               <p className="r-note">Tus datos llegan al correo de Bolcanar (por medio del servicio FormSubmit) solo para gestionar tu reserva; esta página no los guarda.${
                 toShopify ? " El pago se hace en Shopify." : toPse ? ` El pago con PSE se hace en ${pseVia() ? `la página segura de ${pseVia()}` : "la página segura de pago"}; esta página no ve tus datos bancarios.` : ""}</p>
               ${status && !status.ok && html`<div className="r-error" role="alert">
-                <p>No pudimos enviar tu reserva por correo. Puedes intentarlo de nuevo o enviarla por WhatsApp.</p>
+                <p>No pudimos enviar tu reserva por correo en este momento. Envíala por WhatsApp: ya va escrita con tu pedido y tus datos.</p>
                 <${Btn} href=${status.wa} target="_blank" rel="noopener" variant="wa" block onClick=${() => { onSent(); onClose(); }}>${I.wa(18)}Enviar por WhatsApp<//>
               </div>`}
               <${Btn} variant="gold" block arrow type="submit" disabled=${!n || status === "sending"}>
@@ -2651,6 +2708,19 @@ h3{ letter-spacing:-.006em; }
         </section>`;
     }
 
+    // Aviso de privacidad: la página no usa cookies de publicidad ni de seguimiento ni analítica. Solo guarda en el
+    // navegador (localStorage) que la persona ya vio este aviso, para no volver a mostrarlo.
+    const AVISO_KEY = "bolcanar-aviso-privacidad";
+    function CookieNote() {
+      const [show, setShow] = useState(() => { try { return !localStorage.getItem(AVISO_KEY); } catch (_) { return true; } });
+      const ok = () => { try { localStorage.setItem(AVISO_KEY, "1"); } catch (_) {} setShow(false); };
+      return html`<${AnimatePresence}>${show && html`<${motion.div} key="aviso" className="cookie-note" role="region" aria-label="Aviso de privacidad"
+          initial=${{ y: 24, opacity: 0 }} animate=${{ y: 0, opacity: 1, transition: { duration: 0.5, ease: EASE, delay: 1.5 } }} exit=${{ y: 24, opacity: 0 }}>
+          <p><b>Tu privacidad.</b> Esta página no usa cookies de publicidad ni de seguimiento. Tus datos solo se usan si haces una reserva.</p>
+          <div><a href="privacidad.html">Ver la política</a><${Btn} variant="gold" onClick=${ok}>Entendido<//></div>
+        <//>`}<//>`;
+    }
+
     function Footer() {
       return html`<footer className="footer t-deep">
           <div className="wrap">
@@ -2673,7 +2743,8 @@ h3{ letter-spacing:-.006em; }
                 </ul>
               </div>
             </div>
-            <div className="foot-bottom"><span>© ${new Date().getFullYear()} Bolcanar · Vichada, Colombia</span><span>Miel de acacia · Cada lote es limitado</span></div>
+            <div className="foot-bottom"><span>© ${new Date().getFullYear()} Bolcanar · Vichada, Colombia</span>
+              <span className="foot-legal"><a href="privacidad.html">Privacidad y cookies</a></span><span>Miel de acacia · Cada lote es limitado</span></div>
           </div>
         </footer>`;
     }
@@ -2766,6 +2837,7 @@ h3{ letter-spacing:-.006em; }
           ${/* Botón redondo de WhatsApp, siempre visible abajo a la izquierda */ ""}
           <a className="wa-fab" href=${waLink("Hola Bolcanar, quiero información sobre la miel.")} target="_blank" rel="noopener"
             aria-label="Escribir a Bolcanar por WhatsApp" title="Escríbenos por WhatsApp">${I.wa(30, 1.8)}</a>
+          <${CookieNote} />
           <${ReserveDrawer} open=${reserveOpen} items=${cart} setItem=${setItem} onClose=${() => setReserveOpen(false)} onSent=${() => setCart({})} />
           ${SHOP_ENABLED && html`<${CartDrawer} open=${cartOpen} items=${cart} setItem=${setItem} onClose=${() => setCartOpen(false)} />`}
         <//>`;
