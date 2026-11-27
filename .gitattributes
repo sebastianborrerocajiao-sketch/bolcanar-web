@@ -1,0 +1,3 @@
+# Librerías servidas tal cual: sin cambiar finales de línea (la huella integrity de index.html debe coincidir)
+vendor/** -text
+fonts/*.woff2 binary

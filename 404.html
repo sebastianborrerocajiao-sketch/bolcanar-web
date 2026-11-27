@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Página no encontrada · Bolcanar</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#211B17" />
+<!-- GitHub Pages muestra esta página en cualquier dirección que no exista: por eso las rutas empiezan con "/" -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="stylesheet" href="/fonts/fonts.css" />
+<style>
+:root{ --ink:#211B17; --ink-2:#17120F; --gold:#C99545; --gold-hi:#DDB06A; --white:#FCFAF6; --fg-2:#CDBFA8; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ -webkit-text-size-adjust:100%; }
+body{ min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; font-family:'DM Sans', system-ui, sans-serif; line-height:1.6;
+  color:var(--white); background:radial-gradient(90% 60% at 50% 0%, rgba(201,149,69,.16), transparent 70%), var(--ink); }
+a{ color:inherit; text-decoration:none; }
+a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; border-radius:6px; }
+header{ padding:20px clamp(18px,4vw,40px); }
+.brand{ display:inline-flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.24em; text-transform:uppercase; font-size:.98rem; }
+.brand svg{ width:34px; height:34px; flex:none; }
+main{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px clamp(18px,4vw,40px) 80px; }
+.code{ font-family:'Cormorant Garamond', 'Times New Roman', serif; font-style:italic; font-size:1.2rem; color:var(--gold); letter-spacing:.06em; }
+h1{ font-family:'Cormorant Garamond', 'Times New Roman', serif; font-weight:500; font-size:clamp(2.3rem,7vw,4rem); line-height:1.05; margin:10px 0 16px; max-width:16ch; }
+h1 em{ color:var(--gold-hi); }
+p{ color:var(--fg-2); max-width:44ch; }
+.ctas{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:30px; }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:50px; padding:0 26px; border-radius:999px;
+  font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; transition:background .25s, border-color .25s; }
+.btn-gold{ background:var(--gold); color:var(--ink); } .btn-gold:hover{ background:var(--gold-hi); }
+.btn-ghost{ border:1px solid rgba(221,176,106,.5); } .btn-ghost:hover{ border-color:var(--gold); background:rgba(201,149,69,.1); }
+footer{ padding:22px; text-align:center; font-size:.84rem; color:var(--fg-2); background:var(--ink-2); }
+footer a{ color:var(--gold-hi); text-decoration:underline; text-underline-offset:3px; }
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#17120F"/><path d="M16 5l9.5 5.5v11L16 27l-9.5-5.5v-11z" fill="none" stroke="#C99545" stroke-width="2"/></svg>Bolcanar</a>
+</header>
+<main>
+  <p class="code">Error 404</p>
+  <h1>Esta página <em>no existe</em></h1>
+  <p>Puede que el enlace esté incompleto o que la página haya cambiado de lugar. Nuestra miel sigue en el inicio.</p>
+  <div class="ctas">
+    <a class="btn btn-gold" href="/">Ir al inicio <span aria-hidden="true">→</span></a>
+    <a class="btn btn-ghost" href="/#frascos">Ver los frascos</a>
+  </div>
+</main>
+<footer>© Bolcanar · Miel de acacia del Vichada, Colombia · <a href="https://wa.me/573024576797">WhatsApp +57 302 457 6797</a></footer>
+</body>
+</html>

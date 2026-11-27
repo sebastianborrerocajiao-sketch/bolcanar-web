@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Bolcanar · Miel de acacia del Vichada, Colombia — La gota de la vida</title>
-<meta name="description" content="Miel de acacia de los llanos del Vichada, Colombia, cosechada a mano en lotes pequeños y sin químicos. Frascos de 360 g, 500 g y 700 g. Reserva en línea y paga con PSE o contra entrega." />
+<meta name="description" content="Miel de acacia de los llanos del Vichada, Colombia, cosechada a mano en lotes pequeños y sin químicos. Frascos de 360 g, 500 g y 700 g. Compra en línea y paga contra entrega, con envíos a toda Colombia." />
 <link rel="canonical" href="https://bolcanar.com/" />
 <meta name="theme-color" content="#211B17" />
 <meta property="og:type" content="website" />
@@ -25,14 +25,14 @@
 <!-- LCP: el póster del video del héroe (horizontal en escritorio, vertical en celular) -->
 <link rel="preload" as="image" type="image/avif" href="video/bolcanar-heroe-poster.avif" media="(min-width: 721px)" fetchpriority="high" />
 <link rel="preload" as="image" type="image/avif" href="video/bolcanar-heroe-vertical-poster.avif" media="(max-width: 720px)" fetchpriority="high" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23211B17'/%3E%3Cpath d='M16 5l9.5 5.5v11L16 27l-9.5-5.5v-11z' fill='none' stroke='%23C99545' stroke-width='2'/%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://unpkg.com" crossorigin />
-<!-- Fuentes sin bloquear el primer pintado: se ve el texto con la fuente de respaldo y cambia al cargar -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Montserrat:wght@800&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Montserrat:wght@800&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Montserrat:wght@800&display=swap" /></noscript>
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<!-- Letras servidas desde el mismo sitio (fonts/, sin Google Fonts) con font-display:swap: se ve el texto con la
+     fuente de respaldo y cambia al cargar. Se precargan las dos que se ven primero. -->
+<link rel="preload" as="font" type="font/woff2" href="fonts/dmsans-normal-400-latin.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="fonts/cormorantgaramond-normal-500-latin.woff2" crossorigin />
+<link rel="stylesheet" href="fonts/fonts.css" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -200,11 +200,26 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
   transition:width .5s var(--ease), height .5s var(--ease); }
 .nav.scrolled .brand-logo{ width:34px; height:34px; }
 .brand-name{ font-family:var(--f-sans); font-weight:700; font-size:1.02rem; letter-spacing:.24em; text-transform:uppercase; }
-.nav-links{ display:flex; gap:clamp(18px,2.6vw,36px); list-style:none; }
-.nav-links a{ position:relative; display:inline-block; padding:8px 0; font-size:.8rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
-  color:#D9CDB8; transition:color .3s; }
-.nav-links a:hover, .nav-links a[aria-current="true"]{ color:var(--c-white); }
-.nav-ul{ position:absolute; left:0; right:0; bottom:0; height:1.5px; background:var(--c-gold); border-radius:2px; }
+/* Secciones de arriba como botones (pastillas); la activa, dorada */
+.nav-links{ display:flex; gap:8px; list-style:none; }
+.nav-pill{ display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 16px; border-radius:var(--r-pill); white-space:nowrap; cursor:pointer;
+  border:1px solid rgba(221,176,106,.38); background:rgba(23,18,15,.4); color:#E3D8C4; font:inherit; font-size:.72rem; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; transition:border-color .25s, background .25s, color .25s; }
+.nav-pill:hover{ border-color:var(--c-gold); color:var(--c-white); background:rgba(201,149,69,.14); }
+.nav-pill.on{ background:var(--c-gold); border-color:var(--c-gold); color:var(--c-ink); }
+.nav-pill svg{ flex:none; }
+/* Lista de "Información adicional" (bajo su botón en computador; a lo ancho en celular) */
+.info-pop{ position:absolute; top:calc(100% - 4px); left:var(--info-left, auto); z-index:2; width:min(440px, calc(100vw - 24px));
+  padding:14px; border-radius:var(--r-lg); background:rgba(23,18,15,.98); border:1px solid rgba(201,149,69,.35);
+  box-shadow:0 30px 60px -24px rgba(0,0,0,.75); color:var(--c-white); }
+.info-h{ padding:4px 8px 10px; font-family:var(--f-display); font-size:1.35rem; font-weight:500; line-height:1.15; border-bottom:1px solid rgba(201,149,69,.2); margin-bottom:6px; }
+.info-h small{ display:block; margin-top:3px; font-family:var(--f-sans); font-size:.8rem; color:#CDBFA8; }
+.info-list{ list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+.info-list a{ display:flex; gap:10px; align-items:flex-start; padding:10px 8px; border-radius:12px; transition:background .2s; }
+.info-list a:hover, .info-list a:focus-visible, .info-list a[aria-current="page"]{ background:rgba(201,149,69,.12); }
+.info-num{ font-family:var(--f-display); font-style:italic; font-size:1rem; color:var(--c-gold); line-height:1.4; }
+.info-txt b{ display:block; font-family:var(--f-display); font-size:1.15rem; font-weight:600; line-height:1.15; }
+.info-txt small{ display:block; margin-top:2px; font-size:.76rem; line-height:1.3; color:#CDBFA8; }
 .nav-right{ display:flex; align-items:center; gap:12px; }
 .nav .btn{ min-height:42px; padding:.7em 1.35em; font-size:.74rem; }
 .icon-btn{ background:none; border:0; cursor:pointer; display:inline-grid; place-items:center; width:44px; height:44px; border-radius:var(--r-pill); position:relative; color:inherit; }
@@ -610,9 +625,75 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
 .r-sum .tot{ border-top:1px solid rgba(201,149,69,.3); margin-top:4px; padding-top:9px; font-weight:700; }
 .r-sum .tot dt, .r-sum .tot dd{ color:var(--c-gold-hi); }
 .r-hint{ font-size:.8rem; color:var(--fg-2); margin:-4px 0 2px; }
-.field select{ width:100%; font:inherit; font-size:1rem; color:var(--fg); background:rgba(252,250,246,.06); border:1px solid rgba(252,250,246,.2);
-  border-radius:12px; padding:12px 14px; min-height:48px; }
-.field select option{ color:#211B17; }
+/* Selector de departamento: oscuro como los demás campos (también la lista que despliega el sistema), con su flecha */
+.field select{ width:100%; font:inherit; font-size:1rem; color:var(--fg); background-color:#2A221C; border:1px solid rgba(252,250,246,.2);
+  border-radius:12px; padding:12px 42px 12px 14px; min-height:48px; color-scheme:dark; -webkit-appearance:none; appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23DDB06A' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center; background-size:18px; transition:border-color .25s; }
+.field select:hover{ border-color:rgba(252,250,246,.34); }
+.field select:focus-visible{ border-color:var(--c-gold); outline-offset:1px; }
+.field select:invalid{ color:#A89A86; }
+.field select option{ background:#2A221C; color:#F5F0E6; }
+.field select option[value=""]{ color:#A89A86; }
+/* Autocompletar del navegador: sin el fondo blanco o celeste; mismo tono oscuro que el campo */
+.field input:-webkit-autofill, .field input:-webkit-autofill:hover, .field input:-webkit-autofill:focus, .field textarea:-webkit-autofill, .field select:-webkit-autofill{
+  -webkit-text-fill-color:var(--fg); caret-color:var(--fg); -webkit-box-shadow:0 0 0 1000px #2A221C inset; box-shadow:0 0 0 1000px #2A221C inset;
+  transition:background-color 9999s ease 0s; }
+.field input, .field textarea{ color-scheme:dark; }
+
+/* ---------- "Conoce más": tarjetas que abren cada segmento ---------- */
+.origin-more{ display:flex; flex-wrap:wrap; gap:6px 26px; margin-top:var(--s-4); }
+.discover .head-center{ margin-bottom:var(--s-5); }
+.disc-grid{ list-style:none; display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap:12px; max-width:1100px; margin:0 auto; }
+.disc-card{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px; height:100%; padding:18px 18px 18px 16px;
+  border:1px solid rgba(201,149,69,.28); border-radius:var(--r-lg); background:rgba(252,250,246,.03); color:var(--fg);
+  transition:border-color .25s, background .25s, transform .25s var(--ease); }
+.disc-card:hover{ border-color:var(--c-gold); background:rgba(201,149,69,.08); }
+.disc-card:active{ transform:scale(.98); }
+.disc-num{ font-family:var(--f-display); font-style:italic; font-size:1.1rem; color:var(--accent); }
+.disc-txt b{ display:block; font-family:var(--f-display); font-size:1.45rem; font-weight:600; line-height:1.1; }
+.disc-txt span{ display:block; margin-top:3px; font-size:.86rem; color:var(--fg-2); }
+.disc-go{ color:var(--c-gold); transition:transform .25s var(--ease); }
+.disc-card:hover .disc-go{ transform:translateX(4px); }
+/* Contacto en el cierre */
+.closing-contact{ margin-top:var(--s-6); display:flex; flex-direction:column; align-items:center; gap:8px; }
+.closing-contact ul{ list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:4px 26px; }
+.closing-contact a{ display:inline-flex; align-items:center; gap:10px; min-height:44px; font-weight:600; color:var(--c-white); overflow-wrap:anywhere; }
+.closing-contact a:hover{ color:var(--c-gold-hi); }
+.closing-contact svg{ color:var(--c-gold); flex:none; }
+
+/* ---------- Segmentos: se abren encima de la página (pantalla completa en el celular; ventana grande en computador) ---------- */
+.seg-bg{ position:fixed; inset:0; z-index:74; background:rgba(10,7,5,.6); }
+.seg{ position:fixed; inset:0; z-index:75; display:flex; flex-direction:column; background:var(--c-ink-2); color:var(--c-white); overflow:hidden; }
+@media (min-width:901px){ .seg{ inset:18px; border-radius:var(--r-lg); border:1px solid rgba(201,149,69,.28); box-shadow:0 40px 90px -30px rgba(0,0,0,.75); } }
+.seg-bar{ flex:none; display:flex; align-items:center; gap:12px; padding:calc(10px + env(safe-area-inset-top)) max(var(--gutter), env(safe-area-inset-right)) 10px max(var(--gutter), env(safe-area-inset-left));
+  border-bottom:1px solid rgba(201,149,69,.2); background:var(--c-ink-2); }
+.seg-back{ flex:none; display:inline-flex; align-items:center; gap:8px; min-height:42px; padding:0 16px 0 12px; border-radius:var(--r-pill); cursor:pointer;
+  border:1px solid rgba(221,176,106,.45); background:rgba(252,250,246,.04); color:var(--c-white);
+  font:inherit; font-size:.74rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; transition:border-color .25s, background .25s; }
+.seg-back:hover{ border-color:var(--c-gold); background:rgba(201,149,69,.1); }
+.seg-h{ flex:1; min-width:0; text-align:center; font-family:var(--f-display); font-size:1.35rem; font-weight:500; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.seg-h:focus{ outline:none; }
+.seg-h small{ display:block; font-family:var(--f-sans); font-size:.64rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--c-gold); }
+.seg-close{ flex:none; font-size:1.8rem; line-height:1; color:var(--c-white); }
+.seg-tabs{ flex:none; display:flex; gap:8px; overflow-x:auto; padding:10px var(--gutter); scrollbar-width:none; border-bottom:1px solid rgba(201,149,69,.14); background:var(--c-ink-2); }
+.seg-tabs::-webkit-scrollbar{ display:none; }
+@media (min-width:901px){ .seg-tabs{ justify-content:center; } }
+.seg-tabs a{ flex:none; display:inline-flex; align-items:center; min-height:38px; padding:0 15px; border-radius:var(--r-pill); white-space:nowrap;
+  border:1px solid rgba(252,250,246,.18); color:#D9CDB8; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; transition:border-color .25s, background .25s, color .25s; }
+.seg-tabs a:hover{ border-color:rgba(221,176,106,.6); color:var(--c-white); }
+.seg-tabs a[aria-current="page"]{ background:var(--c-gold); border-color:var(--c-gold); color:var(--c-ink); }
+.seg-body{ flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+.seg-body .section:first-child, .seg-body > div > .section:first-child{ padding-top:clamp(40px,6vw,88px); }
+.seg-end{ display:flex; flex-direction:column; align-items:center; gap:20px; padding:var(--s-6) var(--gutter) calc(var(--s-6) + env(safe-area-inset-bottom)); border-top:1px solid rgba(201,149,69,.2); text-align:center; }
+.seg-next{ display:grid; gap:2px; justify-items:center; padding:16px 26px; border:1px solid rgba(201,149,69,.35); border-radius:var(--r-lg); color:var(--c-white); transition:border-color .25s, background .25s; }
+.seg-next:hover{ border-color:var(--c-gold); background:rgba(201,149,69,.08); }
+.seg-next small{ font-size:.68rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--c-gold); }
+.seg-next b{ font-family:var(--f-display); font-size:1.6rem; font-weight:600; line-height:1.1; }
+.seg-next span{ font-size:.86rem; color:#CDBFA8; }
+.seg-next .seg-next-go{ color:var(--c-gold); font-size:1.1rem; }
+.seg-ctas{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+.mm-group + .mm-group{ margin-top:var(--s-3); }
 .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 /* aviso de privacidad y cookies (una vez por navegador) */
 .cookie-note{ position:fixed; z-index:57; left:max(var(--gutter), env(safe-area-inset-left)); bottom:calc(18px + env(safe-area-inset-bottom));
@@ -644,20 +725,37 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
 .r-error p{ font-size:.9rem; color:#F1D3C6; }
 
 /* ===================== Responsive ===================== */
+/* Pantallas sin espacio para todo en una línea: los botones pasan a una segunda fila que se desliza de lado */
+@media (max-width:1240px){
+  .nav{ flex-wrap:wrap; row-gap:8px; }
+  .nav > nav{ order:3; flex:1 0 100%; min-width:0; }
+  .nav-links{ overflow-x:auto; scrollbar-width:none; margin:0 calc(-1 * var(--gutter)); padding:0 var(--gutter) 2px; }
+  .nav-links::-webkit-scrollbar{ display:none; }
+  .nav-pill{ min-height:36px; padding:0 14px; font-size:.68rem; }
+  .info-pop{ left:12px !important; right:12px; width:auto; max-width:560px; top:100%; }
+  .hero{ padding-top:168px; }
+  .video-frame{ top:150px; }
+  section[id]{ scroll-margin-top:116px; }
+  /* la fila se desliza: el borde derecho se desvanece para que se note que hay más botones */
+  .nav-links{ -webkit-mask-image:linear-gradient(90deg, #000 88%, transparent); mask-image:linear-gradient(90deg, #000 88%, transparent); }
+}
+@media (max-width:720px){
+  /* En el celular, "Información adicional" va de segundo, junto a Frascos, para que se vea sin deslizar */
+  .nav-links > li{ order:2; } .nav-links > li:first-child{ order:0; } .nav-links > li:nth-child(4){ order:1; }
+}
 @media (max-width:1060px){
-  .nav-links{ display:none; }
   .attrs{ grid-template-columns:1fr 1fr; }
   .attr:nth-child(3){ padding-left:0; border-left:0; }
   .attr:nth-child(n+3){ border-top:1px solid var(--line); }
   .commit{ grid-template-columns:1fr 1fr 1fr; } .commit .eyebrow{ grid-column:1 / -1; }
 }
 @media (max-width:900px){
-  .hero{ padding:108px 0 88px; min-height:auto; }
+  .hero{ padding:160px 0 88px; min-height:auto; }   /* arriba: barra + fila de botones */
   .hero:has(.video-frame){ padding-bottom:132px; }
   .hero-grid{ grid-template-columns:1fr; }
   .hero-photo{ justify-self:center; width:min(78%, 360px); }
   .hero-photo figcaption{ left:-12px; bottom:18px; }
-  .video-frame{ inset:76px 10px 10px 10px; }
+  .video-frame{ inset:138px 10px 10px 10px; }
   .scroll-cue{ display:none; }
   .shop{ grid-template-columns:1fr; max-width:620px; }
   .split, .faq-grid{ grid-template-columns:1fr; }
@@ -668,7 +766,11 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
   .foot-grid{ grid-template-columns:1fr 1fr; } .foot-grid > :first-child{ grid-column:1 / -1; }
 }
 @media (max-width:720px){
-  .nav .btn{ display:none; }
+  /* "Reservar" también en la barra del celular, más compacto */
+  .nav-right{ gap:8px; }
+  .nav .btn{ min-height:40px; padding:.6em 1.05em; font-size:.68rem; }
+  /* El botón de WhatsApp no tapa "Reservar" del panel del frasco: se esconde mientras ese panel está en pantalla */
+  .buy-visible .wa-fab{ opacity:0; transform:scale(.6); pointer-events:none; visibility:hidden; transition:opacity .25s, transform .25s var(--ease), visibility 0s .25s; }
   .stage{ border-radius:var(--r-md); }
   .video-ctl{ bottom:16px; padding:0 12px; }
   .hero-scrim{ background:linear-gradient(180deg, rgba(23,18,15,.78) 0%, rgba(23,18,15,.6) 50%, rgba(23,18,15,.88) 100%); }
@@ -690,6 +792,9 @@ h3{ font-size:var(--fs-h3); line-height:1.15; }
   .footer{ padding-bottom:110px; }
 }
 @media (max-width:420px){
+  .menu-btn .mb-lbl{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+  .menu-btn{ padding:0 11px; }
+  .brand{ gap:9px; } .brand-name{ font-size:.92rem; letter-spacing:.2em; }
   .hero-ctas .btn{ width:100%; }
   .size-opt b{ font-size:1.15rem; } .size-opt span{ letter-spacing:.1em; }
 }
@@ -783,10 +888,12 @@ h3{ letter-spacing:-.006em; }
     </main>
   </noscript>
 
-  <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
-  <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
-  <script defer src="https://unpkg.com/framer-motion@10.18.0/dist/framer-motion.js" integrity="sha384-LbE7QjuKrfj+tfbJFtZUSlf+kL3z8bJeKfT3daZFPfgipMms5XiZhnAk6iXnWm+d" crossorigin="anonymous"></script>
-  <script defer src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js" integrity="sha384-toVdrLSMaw7Y55MowcKqkmFL/Ek6Sky62NOk0b5sDDZBu2wcoPyyQUt9unDVjXhL" crossorigin="anonymous"></script>
+  <!-- Librerías servidas desde el mismo sitio (vendor/), las mismas versiones que antes venían de unpkg.com;
+       la huella "integrity" comprueba que son idénticas. Se bajan con scripts/bajar-dependencias.ps1. -->
+  <script defer src="vendor/react-18.3.1.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z"></script>
+  <script defer src="vendor/react-dom-18.3.1.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1"></script>
+  <script defer src="vendor/framer-motion-10.18.0.js" integrity="sha384-LbE7QjuKrfj+tfbJFtZUSlf+kL3z8bJeKfT3daZFPfgipMms5XiZhnAk6iXnWm+d"></script>
+  <script defer src="vendor/htm-3.1.1.umd.js" integrity="sha384-toVdrLSMaw7Y55MowcKqkmFL/Ek6Sky62NOk0b5sDDZBu2wcoPyyQUt9unDVjXhL"></script>
 
   <script>
   // Se ejecuta después de los scripts diferidos (React, Framer Motion, htm).
@@ -828,13 +935,17 @@ h3{ letter-spacing:-.006em; }
     // (con "Acepta novedades" para saber a quién se le pueden enviar ofertas), el cliente recibe el correo de su compra
     // y Bolcanar recibe el aviso por correo. Vacío = se usa solo FormSubmit. Debe terminar en /exec.
     const SHEETS_URL = "https://script.google.com/macros/s/AKfycbweaIHOuoL2YWD8air2sr4sRpkE7hHn5DbFRA2ZtFhqRa784rV9er5SKJCn6oWvtP_I/exec";
-    // Formas de pago en "Tu reserva" (pasos en docs/ACTIVAR-RESERVAS-Y-PAGOS.md):
-    // · PSE (la principal): un link de pago REUTILIZABLE de monto abierto, donde la persona escribe el valor y elige
-    //   PSE y su banco. Sirve "Tu link" de Mercado Pago o un link de Wompi o Bold con "monto definido por el pagador".
-    //   Sin mensualidad: solo la comisión de cada pago. Al enviar la reserva, la página muestra el valor exacto, el
-    //   número de reserva y el botón para pagar. Con "link" vacío, la reserva igual llega al correo y la página ofrece
-    //   pedir el link de pago por WhatsApp. Solo se aceptan direcciones https.
-    const PSE = { link: "" };   // p. ej. { link: "https://link.mercadopago.com.co/bolcanar" }
+    // FORMAS DE PAGO en "Tu reserva" (pasos en docs/ACTIVAR-PAGOS-EN-LINEA.md).
+    // Hoy: solo CONTRA ENTREGA. El pago en línea está listo pero apagado. Para encenderlo, pon activo: true y llena al
+    // menos uno de estos dos datos (pueden ir los dos; cada uno aparece como una opción más al reservar):
+    //  · llaveBreB: la llave Bre-B de la cuenta de Bolcanar (celular, correo, documento o una llave tipo @bolcanar).
+    //    La persona transfiere desde la app de su banco o billetera y el dinero llega al instante a tu cuenta, sin
+    //    pasarela. Luego te envía el comprobante por WhatsApp con su número de reserva.
+    //  · link: un link de pago REUTILIZABLE de monto abierto (Wompi, Bold o Mercado Pago) para pagar con PSE o tarjeta.
+    //    La pasarela cobra su comisión y te deposita en tu cuenta bancaria. Solo se aceptan direcciones https.
+    // Al enviar la reserva, la página muestra el valor exacto, el número de reserva y cómo pagar, y el correo al
+    // cliente lleva las mismas instrucciones.
+    const PAGO_EN_LINEA = { activo: false, llaveBreB: "", link: "" };   // p. ej. { activo: true, llaveBreB: "@bolcanar", link: "" }
     // · En línea con Shopify (tarjeta y PSE, según el medio de pago activado en Shopify): aparece como otra opción
     //   cuando "store" tiene el dominio .myshopify.com de la tienda, ya guardada en la cuenta de Shopify y con plan.
     //   Lleva al pago de Shopify con los frascos en el carrito y el número de reserva en las notas del pedido.
@@ -899,18 +1010,30 @@ h3{ letter-spacing:-.006em; }
     ];
     const DEFAULT_PRODUCT = "500";
 
-    const NAV = [["frascos", "Frascos"], ["esencia", "Esencia"], ["origen", "Origen"], ["usos", "Usos"], ["preguntas", "Preguntas"]];
-    // Menú (botón de tres líneas): todas las secciones, cada una con un subtítulo para ubicarse en la página
+    // La página principal es corta: héroe, frascos, quiénes somos, cristalización, "Conoce más" y contacto.
+    // Lo demás son SEGMENTOS que se abren encima de la página (sin bajar por todo el sitio), en celular y computador.
+    // Botones de arriba. "Información adicional" (tercer valor: true) abre la lista de segmentos; en el pie lleva a #descubre.
+    const NAV = [["frascos", "Frascos"], ["origen", "Quiénes somos"], ["cristalizacion", "Cristalización"], ["descubre", "Información adicional", true], ["contacto", "Contacto"]];
+    // Menú (botón de tres líneas): lo de la página principal y, aparte, los segmentos; cada uno con un subtítulo
     const MENU = [
       ["frascos", "Frascos", "Elige tu tamaño y reserva"],
-      ["esencia", "La esencia", "Cómo es nuestra miel"],
-      ["origen", "El origen", "Vichada, de donde viene"],
-      ["color", "El color", "Por qué es casi negra"],
+      ["origen", "Quiénes somos", "Vichada, de donde viene"],
       ["cristalizacion", "Cristalización", "Por qué es buena señal"],
+      ["contacto", "Contacto", "WhatsApp, correo e Instagram"],
+    ];
+    const SEGMENTS = [
+      ["esencia", "La esencia", "Cómo es nuestra miel"],
+      ["recorrido", "El recorrido", "De la sabana al frasco"],
+      ["color", "El color", "Por qué es casi negra"],
+      ["diferencia", "Por qué Bolcanar", "Lo que la hace distinta"],
       ["usos", "En tu mesa", "Ideas para disfrutarla"],
       ["nutricion", "Nutrición", "Lo que hay en cada cucharada"],
-      ["preguntas", "Preguntas", "Envíos, pagos y contacto"],
+      ["preguntas", "Preguntas", "Envíos, pagos y conservación"],
     ];
+    // Direcciones viejas que ahora viven dentro de un segmento (#donde quedó en "El recorrido")
+    const SEG_ALIAS = { donde: "recorrido" };
+    const segOf = (id) => { const k = SEG_ALIAS[id] || id; return SEGMENTS.some(([s]) => s === k) ? k : null; };
+    const segFromHash = () => { try { return segOf(decodeURIComponent(location.hash.slice(1))); } catch (_) { return null; } };
 
     /* ---------- utilidades ---------- */
     // Rutas de archivos: en la web normal devuelve la misma ruta; en la versión autónoma
@@ -1065,15 +1188,30 @@ h3{ letter-spacing:-.006em; }
     /* =====================================================================
        Navegación
        ===================================================================== */
-    function Nav({ cartCount, onCart, onReserve, reserveCount = 0 }) {
+    function Nav({ cartCount, onCart, onReserve, reserveCount = 0, seg }) {
       const [scrolled, setScrolled] = useState(false);
       const [open, setOpen] = useState(false);
-      const active = useActiveSection(["inicio", ...MENU.map(([id]) => id)]);
+      // "Información adicional": lista de lo que no está en la página principal (los segmentos)
+      const [info, setInfo] = useState(null);   // null = cerrada; { left } = abierta (left: posición bajo el botón)
+      const infoBtn = useRef(null), infoPop = useRef(null);
+      const active = useActiveSection(["inicio", ...NAV.map(([id]) => id)]);
       useEffect(() => {
         const on = () => setScrolled(window.scrollY > 30);
         on(); window.addEventListener("scroll", on, { passive: true });
         return () => window.removeEventListener("scroll", on);
       }, []);
+      const toggleInfo = () => {
+        if (info) return setInfo(null);
+        const r = infoBtn.current.getBoundingClientRect();
+        setInfo({ left: Math.max(12, Math.min(r.left, window.innerWidth - 452)) });
+      };
+      useEffect(() => {   // se cierra con Esc o tocando fuera
+        if (!info) return;
+        const esc = (e) => { if (e.key === "Escape") { setInfo(null); infoBtn.current && infoBtn.current.focus(); } };
+        const fuera = (e) => { if (!(infoPop.current && infoPop.current.contains(e.target)) && !(infoBtn.current && infoBtn.current.contains(e.target))) setInfo(null); };
+        document.addEventListener("keydown", esc); document.addEventListener("pointerdown", fuera);
+        return () => { document.removeEventListener("keydown", esc); document.removeEventListener("pointerdown", fuera); };
+      }, [info]);
       useEffect(() => {
         if (!open) return;
         const esc = (e) => { if (e.key === "Escape") setOpen(false); };
@@ -1088,12 +1226,26 @@ h3{ letter-spacing:-.006em; }
           <a href="#inicio" className="brand" aria-label="Bolcanar, inicio">${I.logo()}<span className="brand-name">Bolcanar</span></a>
           <nav aria-label="Secciones">
             <ul className="nav-links">
-              ${NAV.map(([id, label]) => html`<li key=${id}>
-                <a href=${"#" + id} aria-current=${active === id ? "true" : undefined}>${label}
-                  ${active === id && html`<${motion.span} layoutId="nav-ul" className="nav-ul" transition=${SPRING} />`}
-                </a></li>`)}
+              ${NAV.map(([id, label, lista]) => html`<li key=${id}>
+                ${lista
+                  ? html`<button type="button" ref=${infoBtn} className=${"nav-pill nav-info" + (info || seg || active === id ? " on" : "")}
+                      aria-expanded=${!!info} aria-controls="info-pop" onClick=${toggleInfo}>${label}
+                      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"
+                        style=${{ transform: info ? "rotate(180deg)" : "none", transition: "transform .25s" }}><path d="M6 9l6 6 6-6" /></svg></button>`
+                  : html`<a className=${"nav-pill" + (active === id && !seg ? " on" : "")} href=${"#" + id} aria-current=${active === id && !seg ? "true" : undefined}>${label}</a>`}
+              </li>`)}
             </ul>
           </nav>
+          <${AnimatePresence}>${info && html`<${motion.div} key="info" id="info-pop" ref=${infoPop} className="info-pop" role="region" aria-label="Información adicional"
+              style=${{ "--info-left": info.left + "px" }}
+              initial=${{ opacity: 0, y: -8 }} animate=${{ opacity: 1, y: 0 }} exit=${{ opacity: 0, y: -8 }} transition=${{ duration: 0.22, ease: EASE }}>
+              <p className="info-h">Información adicional<small>Lo que no está en la página principal; se abre aquí mismo.</small></p>
+              <ul className="info-list">
+                ${SEGMENTS.map(([sid, t, sub], i) => html`<li key=${sid}><a href=${"#" + sid} onClick=${() => setInfo(null)} aria-current=${seg === sid ? "page" : undefined}>
+                  <span className="info-num" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+                  <span className="info-txt"><b>${t}</b><small>${sub}</small></span></a></li>`)}
+              </ul>
+            <//>`}<//>
           <div className="nav-right">
             ${SHOP_ENABLED && html`<button className="icon-btn" onClick=${onCart} aria-label=${"Ver pedido, " + cartCount + " frascos"}>
               ${I.bag()}${cartCount > 0 && html`<span className="cart-count">${cartCount}</span>`}</button>`}
@@ -1115,15 +1267,16 @@ h3{ letter-spacing:-.006em; }
                 <span className="mm-brand">${I.logo()}<span>Bolcanar</span></span>
                 <button type="button" className="icon-btn mm-close" onClick=${() => setOpen(false)} aria-label="Cerrar menú" autoFocus>×</button>
               </div>
-              <p className="mm-eyebrow">Explora la página</p>
-              <ol className="mm-list">
-                ${MENU.map(([id, label, sub], i) => html`<${motion.li} key=${id} initial=${{ opacity: 0, x: -14 }} animate=${{ opacity: 1, x: 0 }} transition=${{ delay: 0.04 * i + 0.08, ease: EASE }}>
-                  <a className="mm-link" href=${"#" + id} onClick=${() => setOpen(false)} aria-current=${active === id ? "true" : undefined}>
-                    <span className="mm-num" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
-                    <span className="mm-txt"><b>${label}</b><small>${sub}</small></span>
-                    <span className="mm-arrow" aria-hidden="true">→</span>
-                  </a><//>`)}
-              </ol>
+              ${[["En la página principal", MENU, 0], ["Información adicional", SEGMENTS, MENU.length]].map(([titulo, items, base]) => html`<div className="mm-group" key=${base}>
+                <p className="mm-eyebrow">${titulo}</p>
+                <ol className="mm-list" start=${base + 1}>
+                  ${items.map(([id, label, sub], i) => html`<${motion.li} key=${id} initial=${{ opacity: 0, x: -14 }} animate=${{ opacity: 1, x: 0 }} transition=${{ delay: 0.03 * (base + i) + 0.08, ease: EASE }}>
+                    <a className="mm-link" href=${"#" + id} onClick=${() => setOpen(false)} aria-current=${active === id ? "true" : undefined}>
+                      <span className="mm-num" aria-hidden="true">${String(base + i + 1).padStart(2, "0")}</span>
+                      <span className="mm-txt"><b>${label}</b><small>${sub}</small></span>
+                      <span className="mm-arrow" aria-hidden="true">→</span>
+                    </a><//>`)}
+                </ol></div>`)}
               <div className="mm-foot">
                 <${Btn} href="#frascos" variant="gold" block onClick=${() => setOpen(false)}>Elegir mi frasco<//>
                 <${Btn} href=${waLink("Hola Bolcanar, quiero información sobre la miel.")} target="_blank" rel="noopener" variant="ghost" block>Escribir por WhatsApp<//>
@@ -1898,7 +2051,7 @@ h3{ letter-spacing:-.006em; }
         setPos(api.current.mode === "frames" ? val : (val / 100) * maxDeg(api.current.p));
       };
 
-      const hint = mode === "views" ? "Vista de producto · arrastra" : "360° · arrastra para girar";
+      const hint = mode === "views" ? "Vista de producto · arrastra" : "Arrastra para girar";
       return html`<div className="viewer">
           <div className=${mode === "scene" && !compare ? "stage is-scene" : "stage"} ref=${stage} onPointerDown=${onDown} onPointerMove=${onMove} onPointerUp=${onUp} onPointerCancel=${onUp}>
             ${mode !== "scene" && html`<div className="stage-floor" aria-hidden="true"></div>`}
@@ -1992,7 +2145,7 @@ h3{ letter-spacing:-.006em; }
             </div>
             <${Reveal} className="assure" delay=${0.1}>
               <div>${I.chat()}<p><b>Reserva en línea</b><span>Eliges tus frascos y escribes tus datos de entrega; tu reserva nos llega al instante.</span></p></div>
-              <div>${I.truck()}<p><b>${shopifyReady() ? "Paga con PSE, tarjeta o contra entrega" : "Paga con PSE o contra entrega"}</b><span>Envíos a toda Colombia desde Bogotá: al reservar ves el costo aproximado del envío y el tiempo de entrega.</span></p></div>
+              <div>${I.truck()}<p><b>${enLinea() ? "Paga en línea o contra entrega" : "Compra en línea y paga contra entrega"}</b><span>Envíos a toda Colombia desde Bogotá: al reservar ves el costo aproximado del envío y el tiempo de entrega.</span></p></div>
               <div>${I.hex()}<p><b>Lotes pequeños</b><span>Cosechada a mano en lotes pequeños. Cada lote es limitado.</span></p></div>
             <//>
           </div>
@@ -2027,10 +2180,10 @@ h3{ letter-spacing:-.006em; }
         <//>`}<//>`;
     }
 
-    // Reserva (como un carrito): la persona elige cuántos frascos de cada tamaño, escribe sus datos de entrega y
-    // cómo pagar (PSE, Shopify si está activa, o contra entrega). La reserva llega al correo de Bolcanar
-    // (FormSubmit) con un número de reserva. Con PSE, la página muestra después el valor exacto y el botón al link de
-    // pago; con Shopify, pasa al pago de Shopify con los frascos ya en el carrito. El sitio no guarda los datos.
+    // Compra (como un carrito): la persona elige cuántos frascos de cada tamaño, escribe sus datos de entrega y
+    // cómo pagar: hoy, contra entrega; con PAGO_EN_LINEA encendido, también link de pago o transferencia Bre-B (y
+    // Shopify si está activa). El pedido llega a la hoja de Google de Bolcanar (respaldo: FormSubmit) con un número de
+    // reserva. Con pago en línea, la página muestra después el valor exacto y cómo pagar. El sitio no guarda los datos.
     // ENVÍOS APROXIMADOS desde Bogotá (Cra 72B #121-51, Suba), por departamento. Valores de referencia de
     // transportadoras para paquetes de 1–2 kg (Coordinadora 2026: local ≈ $9.000, regional ≈ $10.450, nacional ≈
     // $17.830, lejana ≈ $25.750–27.560, especial ≈ $42.150), redondeados hacia arriba por el empaque. "base" cubre
@@ -2061,7 +2214,10 @@ h3{ letter-spacing:-.006em; }
       const z = ENVIO_ZONAS[fila[1]];
       return { zona: z.nombre, costo: z.base + Math.max(0, n - 2) * z.extra, entrega: diasTexto(z.dias) };
     };
-    const pseLink = () => /^https:\/\/[^\s"'<>]+$/.test(PSE.link || "") ? PSE.link : "";
+    // Pago en línea (apagado mientras PAGO_EN_LINEA.activo sea false)
+    const pseLink = () => PAGO_EN_LINEA.activo && /^https:\/\/[^\s"'<>]+$/.test(PAGO_EN_LINEA.link || "") ? PAGO_EN_LINEA.link : "";
+    const llaveBreB = () => (PAGO_EN_LINEA.activo ? String(PAGO_EN_LINEA.llaveBreB || "").trim() : "");
+    const enLinea = () => !!(pseLink() || llaveBreB() || shopifyReady());
     const pseVia = () => {   // nombre de la pasarela, sacado del link
       const l = pseLink();
       return /mercadopago|mpago\./i.test(l) ? "Mercado Pago" : /wompi/i.test(l) ? "Wompi" : /bold\.co/i.test(l) ? "Bold" : /epayco/i.test(l) ? "ePayco" : "";
@@ -2077,18 +2233,25 @@ h3{ letter-spacing:-.006em; }
       if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(b); else b.forEach((_, i) => { b[i] = Math.random() * 256; });
       return "BOL-" + [...b].map((x) => abc[x % abc.length]).join("");
     };
+    // Opciones al reservar: contra entrega siempre; las de pago en línea solo si están encendidas y configuradas
     const payOptions = () => [
-      ["pse", pseLink() ? "Pagar ya con PSE" : "Pagar con PSE", pseLink()
-        ? "Desde tu cuenta de ahorros o corriente, de cualquier banco."
-        : "Te enviamos por WhatsApp el link para pagar desde tu cuenta bancaria."],
+      ...(pseLink() ? [["pse", "Pagar en línea", `Con PSE o tarjeta, en la página segura${pseVia() ? ` de ${pseVia()}` : " de pago"}.`]] : []),
+      ...(llaveBreB() ? [["breb", "Transferencia Bre-B", "Desde la app de tu banco o billetera, con nuestra llave. El dinero llega al instante."]] : []),
       ...(shopifyReady() ? [["shopify", "Pagar ya con tarjeta o PSE", "En el pago seguro de Shopify, con tus frascos ya en el carrito."]] : []),
       ["entrega", "Pagar contra entrega", "Pagas cuando recibes tu pedido."],
     ];
     const payLabel = (pago) => pago === "entrega" ? "Contra entrega"
       : pago === "shopify" ? "En línea con Shopify (ver el pedido en Shopify)"
-      : pseLink() ? `PSE con link de pago${pseVia() ? ` (${pseVia()})` : ""}: confirmar que llegó el pago`
-      : "PSE: enviarle el link de pago por WhatsApp";
-    const payShort = (pago) => pago === "entrega" ? "contra entrega" : pago === "shopify" ? "en línea con tarjeta o PSE" : "con PSE";
+      : pago === "breb" ? `Transferencia Bre-B a la llave ${llaveBreB()}: confirmar que llegó el pago`
+      : `En línea con link de pago${pseVia() ? ` (${pseVia()})` : ""}: confirmar que llegó el pago`;
+    const payShort = (pago) => pago === "entrega" ? "contra entrega" : pago === "shopify" ? "en línea con tarjeta o PSE"
+      : pago === "breb" ? "por transferencia Bre-B" : "en línea (PSE o tarjeta)";
+    // Instrucciones de pago para el correo al cliente (vacío con contra entrega)
+    const payHowTo = (pago, total, ref) => pago === "breb" && llaveBreB()
+      ? `Para pagar: transfiere ${total} a la llave Bre-B ${llaveBreB()} desde la app de tu banco o billetera y envíanos el comprobante por WhatsApp al +57 302 457 6797 con tu número de reserva ${ref}.`
+      : pago === "pse" && pseLink()
+        ? `Para pagar en línea: entra a ${pseLink()} , escribe el valor ${total} y envíanos el comprobante por WhatsApp al +57 302 457 6797 con tu número de reserva ${ref}.`
+        : "";
     const sendReservaEmail = async (list, d) => {
       const body = {
         _subject: `Nueva reserva ${d.ref} · ${d.nombre} · ${fmt(d.totalConEnvio)}`,
@@ -2132,7 +2295,8 @@ h3{ letter-spacing:-.006em; }
         pedido: list.map(({ p, q }) => `${q} × ${p.size}`).join(" · "),
         items: list.map(({ p, q }) => ({ q, tam: p.size, nombre: p.name, precio: p.price })),
         subtotal: d.subtotal, envio: d.envio, total: d.totalConEnvio, zona: d.zona, entrega: d.entrega,
-        pago: payShort(d.pago), novedades: !!d.novedades, origen: location.hostname || "bolcanar.com",
+        pago: payShort(d.pago), instrucciones: payHowTo(d.pago, fmt(d.totalConEnvio), d.ref),
+        novedades: !!d.novedades, origen: location.hostname || "bolcanar.com",
       };
       const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 25000);
       try {
@@ -2171,20 +2335,22 @@ h3{ letter-spacing:-.006em; }
 
     function ReserveDrawer({ open, items, setItem, onClose, onSent }) {
       const box = useRef(null), back = useRef(null);
-      const [pago, setPago] = useState("pse");
+      // forma de pago: la primera disponible (hoy, contra entrega)
+      const [pago, setPago] = useState(() => payOptions()[0][0]);
       // estado del envío: "" (llenando) · "sending" · { ok: true, … } (enviada) · { ok: false, wa } (falló)
       const [status, setStatus] = useState("");
       const [copied, setCopied] = useState(false);
+      const [copiedKey, setCopiedKey] = useState(false);
       const [dep, setDep] = useState("");   // departamento de entrega: define el envío aproximado
       const list = PRODUCTS.filter((p) => items[p.id] && items[p.id].q > 0).map((p) => items[p.id]);
       const n = list.reduce((s, it) => s + it.q, 0), total = list.reduce((s, it) => s + it.p.price * it.q, 0);
       const env = envioPara(dep, n);
       const toShopify = pago === "shopify" && shopifyReady();
-      const toPse = pago === "pse" && !!pseLink();
+      const toPse = pago === "pse" && !!pseLink(), toBreb = pago === "breb" && !!llaveBreB();
       useEffect(() => {
         if (!open) return;
-        setStatus(""); setCopied(false);
-        if (pago === "shopify" && !shopifyReady()) setPago("pse");
+        setStatus(""); setCopied(false); setCopiedKey(false);
+        if (!payOptions().some(([id]) => id === pago)) setPago(payOptions()[0][0]);
         back.current = document.activeElement;
         document.body.style.overflow = "hidden";
         const t = setTimeout(() => { const h = document.getElementById("reserve-h"); if (h) h.focus(); }, 90);
@@ -2233,7 +2399,13 @@ h3{ letter-spacing:-.006em; }
         const el = amountRef.current, sel = window.getSelection && window.getSelection();
         if (el && sel) { const r = document.createRange(); r.selectNodeContents(el); sel.removeAllRanges(); sel.addRange(r); setCopied("sel"); }
       };
-      // panel después de enviar: con PSE muestra cómo pagar; contra entrega, qué sigue
+      const copyKey = async () => { setCopiedKey((await copyText(llaveBreB())) ? "ok" : "no"); };
+      const amountBox = (s) => html`<div className="r-amount">
+          <div><span>Valor a pagar</span><b ref=${amountRef}>${s.total}</b></div>
+          <button type="button" className=${"r-copy" + (copied ? " done" : "")} onClick=${copyAmount} aria-live="polite">${copied === "ok" ? "Valor copiado" : copied === "sel" ? "Valor seleccionado" : "Copiar valor"}</button>
+        </div>`;
+      const comprobante = (s, como) => html`<${Btn} href=${waLink(`Hola Bolcanar, ya pagué ${como} la reserva ${s.ref} por ${s.total}. Les envío el comprobante.`)} target="_blank" rel="noopener" variant="wa" block>${I.wa(18)}Enviar comprobante<//>`;
+      // panel después de enviar: con pago en línea muestra cómo pagar; contra entrega, qué sigue
       const done = (s) => {
         const head = html`<p><b>Tu número de reserva es <span className="r-ref">${s.ref}</span>: ${s.n} ${s.n === 1 ? "frasco" : "frascos"}.</b></p>
           <dl className="r-sum">
@@ -2245,25 +2417,33 @@ h3{ letter-spacing:-.006em; }
           <p>${s.mailed ? html`Te enviamos el resumen de tu compra a <b>${s.correo}</b> y te escribiremos` : "Te escribiremos"} por WhatsApp al <b>${s.celular}</b> para confirmar el pedido y el valor exacto del envío.</p>`;
         if (s.pago === "pse" && pseLink()) return html`${head}
           <div className="r-pay">
-            <div className="r-amount">
-              <div><span>Valor a pagar</span><b ref=${amountRef}>${s.total}</b></div>
-              <button type="button" className=${"r-copy" + (copied ? " done" : "")} onClick=${copyAmount} aria-live="polite">${copied === "ok" ? "Valor copiado" : copied === "sel" ? "Valor seleccionado" : "Copiar valor"}</button>
-            </div>
+            ${amountBox(s)}
             <ol className="r-steps">
-              <li>Toca <b>Pagar con PSE</b>: se abre ${pseVia() ? `el pago seguro de ${pseVia()}` : "el pago seguro"}.</li>
-              <li>Escribe el valor <b>${s.total}</b>, elige <b>PSE</b> y tu banco.</li>
+              <li>Toca <b>Pagar en línea</b>: se abre ${pseVia() ? `el pago seguro de ${pseVia()}` : "el pago seguro"}.</li>
+              <li>Escribe el valor <b>${s.total}</b> y elige <b>PSE</b> (tu banco) o tarjeta.</li>
               <li>Envíanos el comprobante por WhatsApp con tu número de reserva.</li>
             </ol>
           </div>
           <div className="r-actions">
-            <${Btn} href=${pseLink()} target="_blank" rel="noopener" variant="gold" block arrow>Pagar con PSE<//>
-            <${Btn} href=${waLink(`Hola Bolcanar, ya pagué con PSE la reserva ${s.ref} por ${s.total}. Les envío el comprobante.`)} target="_blank" rel="noopener" variant="wa" block>${I.wa(18)}Enviar comprobante<//>
+            <${Btn} href=${pseLink()} target="_blank" rel="noopener" variant="gold" block arrow>Pagar en línea<//>
+            ${comprobante(s, "en línea")}
             <${Btn} variant="ghost" block onClick=${onClose}>Cerrar<//>
           </div>`;
-        if (s.pago === "pse") return html`${head}
-          <p>Te enviamos por WhatsApp el link para pagar ${s.total} con PSE desde tu banco. Si quieres pagar ya, pídelo aquí.</p>
+        if (s.pago === "breb" && llaveBreB()) return html`${head}
+          <div className="r-pay">
+            ${amountBox(s)}
+            <div className="r-amount">
+              <div><span>Llave Bre-B de Bolcanar</span><b className="r-key">${llaveBreB()}</b></div>
+              <button type="button" className=${"r-copy" + (copiedKey === "ok" ? " done" : "")} onClick=${copyKey} aria-live="polite">${copiedKey === "ok" ? "Llave copiada" : "Copiar llave"}</button>
+            </div>
+            <ol className="r-steps">
+              <li>Abre la app de tu banco o billetera y elige <b>Bre-B</b> o <b>transferir con llave</b>.</li>
+              <li>Pega la llave <b>${llaveBreB()}</b>, revisa el nombre del destinatario y escribe el valor <b>${s.total}</b>.</li>
+              <li>Envíanos el comprobante por WhatsApp con tu número de reserva.</li>
+            </ol>
+          </div>
           <div className="r-actions">
-            <${Btn} href=${waLink(`${s.msg}\n\nQuiero pagar con PSE. ¿Me envían el link de pago?`)} target="_blank" rel="noopener" variant="wa" block>${I.wa(18)}Pedir el link de pago<//>
+            ${comprobante(s, "por Bre-B")}
             <${Btn} variant="ghost" block onClick=${onClose}>Cerrar<//>
           </div>`;
         return html`${head}
@@ -2342,14 +2522,15 @@ h3{ letter-spacing:-.006em; }
                 <input type="checkbox" name="novedades" value="si" />
                 <span>Quiero recibir novedades, nuevas cosechas y ofertas de Bolcanar por WhatsApp o correo <small>(opcional)</small>.</span>
               </label>
-              <p className="r-note">Tus datos llegan al correo de Bolcanar (por medio del servicio FormSubmit) solo para gestionar tu reserva; esta página no los guarda.${
-                toShopify ? " El pago se hace en Shopify." : toPse ? ` El pago con PSE se hace en ${pseVia() ? `la página segura de ${pseVia()}` : "la página segura de pago"}; esta página no ve tus datos bancarios.` : ""}</p>
+              <p className="r-note">Tus datos llegan a Bolcanar (a su lista de pedidos en Google y a su correo) solo para gestionar tu reserva; esta página no los guarda.${
+                toShopify ? " El pago se hace en Shopify." : toPse ? ` El pago se hace en ${pseVia() ? `la página segura de ${pseVia()}` : "la página segura de pago"}; esta página no ve tus datos bancarios.`
+                : toBreb ? " La transferencia la haces tú desde la app de tu banco; esta página no ve tus datos bancarios." : ""}</p>
               ${status && !status.ok && html`<div className="r-error" role="alert">
                 <p>No pudimos enviar tu reserva por correo en este momento. Envíala por WhatsApp: ya va escrita con tu pedido y tus datos.</p>
                 <${Btn} href=${status.wa} target="_blank" rel="noopener" variant="wa" block onClick=${() => { onSent(); onClose(); }}>${I.wa(18)}Enviar por WhatsApp<//>
               </div>`}
               <${Btn} variant="gold" block arrow type="submit" disabled=${!n || status === "sending"}>
-                ${status === "sending" ? "Enviando…" : toShopify ? "Continuar al pago" : toPse ? "Reservar y pagar" : "Enviar reserva"}<//>
+                ${status === "sending" ? "Enviando…" : toShopify ? "Continuar al pago" : toPse || toBreb ? "Reservar y pagar" : "Comprar · pago contra entrega"}<//>
             </form>`}
           <//>`}<//>`;
     }
@@ -2423,15 +2604,25 @@ h3{ letter-spacing:-.006em; }
           <${BgImage} src="images/vichada-rio.jpg" w="1280" h="960" sectionRef=${ref} />
           <div className="wrap">
             <div className="origin-copy">
-              <${Reveal}><span className="eyebrow">El origen</span><h2 id="origen-h">Vichada, <em>Colombia</em></h2><//>
+              <${Reveal}><span className="eyebrow">Quiénes somos</span><h2 id="origen-h">Vichada, <em>Colombia</em></h2><//>
               <${Reveal} as="p" delay=${0.08}>En el oriente de Colombia, junto al río Orinoco, se extiende el Vichada: sabanas inmensas, morichales y bosques. De allí viene Bolcanar.<//>
+              <${Reveal} as="p" delay=${0.12}>Cosechada a mano en lotes pequeños, sin químicos y de familias apicultoras del Vichada.<//>
               ${/* Redacción aprobada por Bolcanar (2026-11-15); reemplaza "crecen acacias, entre otras especies". */ ""}
               <${Reveal} className="origin-note" delay=${0.16}>${I.leaf()}
                 <span>Bolcanar es miel de acacia de los llanos del Vichada.</span><//>
+              ${/* El recorrido y la esencia se abren como segmentos encima de la página */ ""}
+              <${Reveal} className="origin-more" delay=${0.2}>
+                <a className="link-arrow" href="#recorrido">De la sabana al frasco <span aria-hidden="true">→</span></a>
+                <a className="link-arrow" href="#esencia">Cómo es nuestra miel <span aria-hidden="true">→</span></a>
+              <//>
             </div>
           </div>
-        </section>
-        <section className="section t-cream" aria-labelledby="recorrido-h">
+        </section>`;
+    }
+
+    // Segmento "El recorrido": de la sabana al frasco y ¿dónde queda Vichada?
+    function Journey() {
+      return html`<section className="section t-cream" id="recorrido" aria-labelledby="recorrido-h">
           <div className="wrap">
             <${Reveal} className="head-center"><span className="eyebrow">El recorrido</span><h2 id="recorrido-h">De la sabana <em>al frasco</em></h2><//>
             <div className="steps">
@@ -2461,13 +2652,14 @@ h3{ letter-spacing:-.006em; }
     }
 
     /* =====================================================================
-       4b · La ciencia del color — guion aprobado por Bolcanar (2026-11-25). Sin afirmaciones ni cifras nuevas;
-       nunca "alta/rica en hierro" ni promesas de salud.
+       4b · La ciencia del color — guion aprobado por Bolcanar (2026-11-25), ajustado el 2026-11-26: solo
+       descripción sensorial (color, aroma, sabor). Sin afirmaciones de salud ni de nutrientes (antioxidantes,
+       minerales, hierro, calcio, potasio) y sin cifras nuevas.
        ===================================================================== */
     const COLOR_BLOCKS = [
       ["01", "La planta", "Nuestras abejas trabajan en acacias (Acacia mangium). Esta planta tiene algo poco común: además del néctar de sus flores, produce néctar en pequeñas glándulas en la base de sus hojas. Ese néctar es más rico en compuestos naturales que tiñen la miel."],
-      ["02", "Lo que le da el color", "El tono oscuro viene de pigmentos naturales del néctar: compuestos fenólicos y flavonoides —los mismos que dan color a frutas como el arándano o al cacao—, junto con minerales. Estudios sobre la miel de acacia mangium encontraron que los lotes más oscuros eran también los de más compuestos fenólicos y mayor actividad antioxidante."],
-      ["03", "Más oscura, más minerales", "Las investigaciones sobre miel coinciden: mientras más oscura, más minerales suele concentrar —como hierro, calcio y potasio— y más antioxidantes que las mieles claras. Por eso su sabor es más profundo, con notas de melaza, madera y tierra cálida."],
+      ["02", "Lo que le da el color", "El tono oscuro viene de pigmentos naturales del néctar, los mismos que dan color a frutas como el arándano o al cacao. Por eso es casi negra en el centro y, a contraluz, brilla rojiza y cobriza."],
+      ["03", "Más oscura, más sabor", "Las mieles oscuras suelen tener un sabor más intenso que las claras. La nuestra es profunda, con notas de melaza, madera y tierra cálida."],
     ];
     function ColorScience() {
       return html`<section className="section t-deep color-sci" id="color" aria-labelledby="color-h">
@@ -2489,7 +2681,6 @@ h3{ letter-spacing:-.006em; }
                 alt="Hileras de árboles de acacia sobre la tierra rojiza del Vichada, bajo un cielo azul" />
               <${Reveal} as="blockquote" delay=${0.1}>No la oscurecemos ni la procesamos: ese color es la huella de la acacia y de la tierra del Vichada.<//>
             </div>
-            <p className="sources">Fuentes: Moniruzzaman et al., Molecules (2013); revisiones sobre compuestos fenólicos y color de la miel (Antioxidants, 2021). La miel es un alimento, no un suplemento.</p>
           </div>
         </section>`;
     }
@@ -2738,7 +2929,7 @@ h3{ letter-spacing:-.006em; }
        7 · Confianza y preguntas
        ===================================================================== */
     const FAQS = [
-      ["¿Cómo compro?", "Elige el tamaño y la cantidad y toca Reservar; en tu reserva puedes sumar frascos de otros tamaños. Escribe tus datos de entrega y elige cómo pagar: ya mismo en línea con PSE, desde tu cuenta bancaria, o contra entrega. Tu reserva nos llega por correo con su número y te contactamos para confirmar disponibilidad y entrega antes de cerrar el pedido."],
+      ["¿Cómo compro?", `Elige el tamaño y la cantidad y toca Reservar; en tu reserva puedes sumar frascos de otros tamaños. Escribe tus datos de entrega${PAGO_EN_LINEA.activo && (PAGO_EN_LINEA.link || PAGO_EN_LINEA.llaveBreB) ? " y elige cómo pagar: en línea (te mostramos cómo al terminar) o contra entrega" : "; pagas contra entrega, cuando recibes tu pedido"}. Te llega a tu correo el resumen de tu compra con su número de reserva, y te escribimos por WhatsApp para confirmar disponibilidad, el valor exacto del envío y la entrega antes de cerrar el pedido.`],
       ["¿Hacen envíos a mi ciudad?", html`Sí, enviamos a toda Colombia desde Bogotá. Costo aproximado del envío para hasta 2 frascos, y tiempo de entrega después de confirmar el pedido:
         <ul className="faq-list">${Object.values(ENVIO_ZONAS).map((z) => html`<li key=${z.nombre}><b>${z.nombre}:</b> ${fmt(z.base)} · ${diasTexto(z.dias)}</li>`)}</ul>
         Cada frasco adicional suma un poco al envío. En “Tu reserva” ves el valor según tu departamento, y te confirmamos el valor exacto por WhatsApp antes de despachar.`],
@@ -2746,7 +2937,7 @@ h3{ letter-spacing:-.006em; }
       ["¿Qué tamaños hay?", "Tres: Pequeño de 360 g ($25.000), Mediano de 500 g ($30.000) y Familiar de 700 g ($40.000)."],
       ["¿Por qué los lotes son limitados?", "Porque cosechamos a mano y en lotes pequeños. Cuando un lote se acaba, esperamos la próxima cosecha."],
       ["¿Por qué mi miel se cristalizó?", html`Es buena señal. La miel natural tiene tanta azúcar en tan poca agua que, con el tiempo y sobre todo con el frío, la glucosa forma pequeños cristales. Que se cristalice muestra que llega sin calentar, sin ultrafiltrar y sin aditivos: no está dañada. Si la quieres líquida, ponla en baño María con agua tibia (máximo unos 40 °C), nunca en microondas. <a href="#cristalizacion">Lee más sobre la cristalización</a>.`],
-      ["¿Por qué es tan oscura?", html`Por la planta: nuestras abejas trabajan en acacias, y su néctar trae pigmentos naturales —compuestos fenólicos y flavonoides— y minerales que tiñen la miel. No la oscurecemos ni la procesamos: ese color es la huella de la acacia y de la tierra del Vichada. <a href="#color">Lee por qué es casi negra</a>.`],
+      ["¿Por qué es tan oscura?", html`Por la planta: nuestras abejas trabajan en acacias, y su néctar trae pigmentos naturales que tiñen la miel. No la oscurecemos ni la procesamos: ese color es la huella de la acacia y de la tierra del Vichada. <a href="#color">Lee por qué es casi negra</a>.`],
       ["¿Cómo la conservo?", "En un lugar fresco y seco, bien tapada y con cuchara limpia y seca. No necesita nevera (el frío acelera la cristalización)."],
       ["¿Es apta para bebés?", "No se recomienda para niños menores de 1 año."],
     ];
@@ -2782,9 +2973,28 @@ h3{ letter-spacing:-.006em; }
     /* =====================================================================
        8 · Cierre y 9 · Footer
        ===================================================================== */
+    // "Conoce más": tarjetas que abren cada segmento encima de la página
+    function Discover() {
+      return html`<section className="section t-deep discover" id="descubre" aria-labelledby="descubre-h">
+          <div className="wrap">
+            <${Reveal} className="head-center"><span className="eyebrow">Información adicional</span>
+              <h2 id="descubre-h">Todo sobre <em>nuestra miel</em></h2>
+              <p className="lead">Abre cada tema aquí mismo, sin perder tu lugar en la página.</p><//>
+            <ul className="disc-grid">
+              ${SEGMENTS.map(([id, t, sub], i) => html`<${Reveal} as="li" key=${id} delay=${0.04 * i} y=${16}>
+                <a className="disc-card" href=${"#" + id} aria-haspopup="dialog">
+                  <span className="disc-num" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+                  <span className="disc-txt"><b>${t}</b><span>${sub}</span></span>
+                  <span className="disc-go" aria-hidden="true">→</span>
+                </a><//>`)}
+            </ul>
+          </div>
+        </section>`;
+    }
+
     function Closing() {
       const ref = useRef(null);
-      return html`<section className="closing t-dark" ref=${ref} aria-labelledby="cierre-h">
+      return html`<section className="closing t-dark" id="contacto" ref=${ref} aria-labelledby="cierre-h">
           <${BgImage} src="images/atardecer-llanos.jpg" w="892" h="693" sectionRef=${ref} />
           <div className="wrap">
             <${Reveal}><span className="eyebrow">La gota de la vida</span><//>
@@ -2794,8 +3004,84 @@ h3{ letter-spacing:-.006em; }
               <${Btn} href="#frascos" variant="gold" arrow magnetic>Reservar nuestra miel<//>
               <${Btn} href=${waLink("Hola Bolcanar, quiero saber de la próxima cosecha.")} target="_blank" rel="noopener" variant="ghost">Escribir por WhatsApp<//>
             <//>
+            <${Reveal} className="closing-contact" delay=${0.22}>
+              <p className="foot-h">Contacto</p>
+              <ul>
+                <li><a href=${waLink("Hola Bolcanar, tengo una pregunta.")} target="_blank" rel="noopener">${I.wa(20)} WhatsApp · +57 302 457 6797</a></li>
+                <li><a href=${"mailto:" + EMAIL}>${I.mail(20)} ${EMAIL}</a></li>
+                <li><a href=${"https://instagram.com/" + INSTAGRAM} target="_blank" rel="noopener">${I.ig(20)} @${INSTAGRAM}</a></li>
+              </ul>
+            <//>
           </div>
         </section>`;
+    }
+
+    /* =====================================================================
+       Segmentos: las secciones de "Conoce más" se abren encima de la página, en celular y en computador.
+       Cada uno tiene su dirección (#esencia, #color…), se puede compartir, y "atrás" del navegador lo cierra.
+       ===================================================================== */
+    const SEG_VIEW = {
+      esencia: () => html`<${Essence} />`, recorrido: () => html`<${Journey} />`, color: () => html`<${ColorScience} />`,
+      diferencia: () => html`<${Difference} />`, usos: () => html`<${Uses} />`, nutricion: () => html`<${Nutrition} />`, preguntas: () => html`<${Faq} />`,
+    };
+    function SegmentPanel({ seg, onClose, onReserve }) {
+      const box = useRef(null), body = useRef(null), back = useRef(null);
+      const i = SEGMENTS.findIndex(([id]) => id === seg), cur = SEGMENTS[i], next = cur && SEGMENTS[(i + 1) % SEGMENTS.length];
+      const isOpen = !!cur;
+      // Abierto: la página de atrás no se mueve; Esc cierra (si no hay una foto ampliada encima) y el foco no sale
+      useEffect(() => {
+        if (!isOpen) return;
+        back.current = document.activeElement;
+        document.body.style.overflow = "hidden";
+        const key = (e) => {
+          if (document.querySelector(".lightbox, .drawer")) return;
+          if (e.key === "Escape") { e.preventDefault(); onClose(); return; }
+          if (e.key !== "Tab" || !box.current) return;
+          const els = [...box.current.querySelectorAll("button, [href], input, select, textarea")].filter((n) => !n.disabled && n.getClientRects().length);
+          const first = els[0], last = els[els.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        };
+        document.addEventListener("keydown", key);
+        return () => {
+          document.removeEventListener("keydown", key); document.body.style.overflow = "";
+          if (back.current && back.current.focus && document.contains(back.current)) back.current.focus({ preventScroll: true });
+        };
+      }, [isOpen]);
+      // Al abrir o cambiar de segmento: arriba del todo, con el foco en el título
+      useEffect(() => {
+        if (!cur) return;
+        if (body.current) body.current.scrollTop = 0;
+        const t = setTimeout(() => { const h = document.getElementById("seg-h"); if (h) h.focus({ preventScroll: true }); }, 60);
+        const tab = box.current && box.current.querySelector('.seg-tabs [aria-current="page"]');
+        if (tab && tab.scrollIntoView) tab.scrollIntoView({ block: "nearest", inline: "center" });
+        return () => clearTimeout(t);
+      }, [seg]);
+      return html`<${AnimatePresence}>${cur && html`
+          <${motion.div} key="segbg" className="seg-bg" aria-hidden="true" onClick=${onClose}
+            initial=${{ opacity: 0 }} animate=${{ opacity: 1 }} exit=${{ opacity: 0 }} />
+          <${motion.div} key="seg" ref=${box} className="seg t-deep" role="dialog" aria-modal="true" aria-labelledby="seg-h"
+            initial=${{ opacity: 0, y: REDUCED ? 0 : 36 }} animate=${{ opacity: 1, y: 0 }} exit=${{ opacity: 0, y: REDUCED ? 0 : 36 }} transition=${SHEET}>
+            <div className="seg-bar">
+              <button type="button" className="seg-back" onClick=${onClose}><span aria-hidden="true">←</span> Volver</button>
+              <p className="seg-h" id="seg-h" tabIndex="-1"><small>Información adicional</small>${cur[1]}</p>
+              <button type="button" className="icon-btn seg-close" onClick=${onClose} aria-label="Cerrar y volver a la página">×</button>
+            </div>
+            <nav className="seg-tabs" aria-label="Temas de información adicional">
+              ${SEGMENTS.map(([id, t]) => html`<a key=${id} href=${"#" + id} aria-current=${id === seg ? "page" : undefined}>${t}</a>`)}
+            </nav>
+            <div className="seg-body" ref=${body}>
+              <div key=${seg}>${SEG_VIEW[seg]()}</div>
+              <div className="seg-end t-deep">
+                <a className="seg-next" href=${"#" + next[0]}>
+                  <small>Siguiente tema</small><b>${next[1]}</b><span>${next[2]}</span><span className="seg-next-go" aria-hidden="true">→</span></a>
+                <div className="seg-ctas">
+                  <${Btn} variant="gold" arrow onClick=${onReserve} aria-haspopup="dialog">Reservar mi frasco<//>
+                  <${Btn} variant="ghost" onClick=${onClose}>Volver a la página<//>
+                </div>
+              </div>
+            </div>
+          <//>`}<//>`;
     }
 
     // Aviso de privacidad: la página no usa cookies de publicidad ni de seguimiento ni analítica. Solo guarda en el
@@ -2841,7 +3127,11 @@ h3{ letter-spacing:-.006em; }
 
     // Ir a una sección desde el menú o un botón la deja encuadrada bajo la barra fija, no con su margen grande arriba
     // y el contenido cortado abajo. Las posiciones son de maqueta (offsetTop no incluye la animación de entrada).
-    const NAV_H = 68;   // alto de la barra ya compacta (al bajar)
+    // Alto de la barra ya compacta (al bajar): se mide, porque en pantallas angostas lleva una segunda fila de botones
+    const navH = () => {
+      const n = document.querySelector(".nav"); if (!n) return 68;
+      return Math.round(n.getBoundingClientRect().height - (n.classList.contains("scrolled") ? 0 : 16));
+    };
     const docTop = (n) => { let t = 0; for (let e = n; e; e = e.offsetParent) t += e.offsetTop; return t; };
     const goTo = (y) => window.scrollTo({ top: Math.max(0, Math.round(y)), behavior: REDUCED ? "auto" : "smooth" });
     // "Elige tu frasco": si cabe, título + frasco + panel de compra centrados; si no (celular), el título y el
@@ -2849,7 +3139,7 @@ h3{ letter-spacing:-.006em; }
     const frameFrascos = (sec) => {
       const box = (s) => { const n = sec.querySelector(s); return n ? { t: docTop(n), b: docTop(n) + n.offsetHeight } : null; };
       const head = box(".head-center") || box(".shop"), shop = box(".shop"), stage = box(".stage") || shop;
-      const avail = window.innerHeight - NAV_H, gap = 16, fits = (t, b) => b - t + 2 * gap <= avail;
+      const NAV_H = navH(), avail = window.innerHeight - NAV_H, gap = 16, fits = (t, b) => b - t + 2 * gap <= avail;
       goTo(fits(head.t, shop.b) ? head.t - NAV_H - (avail - (shop.b - head.t)) / 2
         : fits(head.t, stage.b) ? head.t - NAV_H - gap
         : fits(shop.t, shop.b) ? shop.t - NAV_H - (avail - (shop.b - shop.t)) / 2
@@ -2860,7 +3150,7 @@ h3{ letter-spacing:-.006em; }
     const frameSection = (sec) => {
       if (sec.id === "inicio") return goTo(0);
       if (sec.id === "frascos") return frameFrascos(sec);
-      const top = docTop(sec), h = sec.offsetHeight, vh = window.innerHeight, avail = vh - NAV_H, gap = 16;
+      const NAV_H = navH(), top = docTop(sec), h = sec.offsetHeight, vh = window.innerHeight, avail = vh - NAV_H, gap = 16;
       const cs = getComputedStyle(sec), ct = top + parseFloat(cs.paddingTop), ch = h - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
       if (h <= avail) return goTo(top - NAV_H);
       if (ch + 2 * gap <= avail) return goTo(Math.min(Math.max(top - NAV_H, ct - NAV_H - (avail - ch) / 2), top + h - vh));
@@ -2889,40 +3179,73 @@ h3{ letter-spacing:-.006em; }
       // "Reservar" de la barra de arriba: abre la reserva; si está vacía, empieza con el frasco elegido.
       const openReserve = () => { if (!count) setItem(sel, qty[selected]); setReserveOpen(true); };
 
+      // Segmento abierto (#esencia, #color…): sale de la dirección, así funciona al compartir el enlace y con "atrás"
+      const [seg, setSeg] = useState(segFromHash);
+      const segRef = useRef(seg); segRef.current = seg;
+      useEffect(() => {
+        const sync = () => setSeg(segFromHash());
+        window.addEventListener("popstate", sync); window.addEventListener("hashchange", sync);
+        return () => { window.removeEventListener("popstate", sync); window.removeEventListener("hashchange", sync); };
+      }, []);
+      const openSeg = (k) => {
+        // entre segmentos se reemplaza la dirección: "atrás" vuelve a la página, no recorre todos los temas
+        if (location.hash !== "#" + k) history[segRef.current ? "replaceState" : "pushState"]({ seg: k }, "", "#" + k);
+        setSeg(k);
+      };
+      const closeSeg = () => {
+        if (history.state && history.state.seg) history.back();   // lo abrió esta página: "atrás" lo cierra (popstate)
+        else { history.replaceState(null, "", location.pathname + location.search); setSeg(null); }
+      };
+
       // Todos los enlaces a una sección (menú de arriba, menú del celular, Descubrir nuestra miel, Conocer su origen,
       // Reservar nuestra miel, pie de página…) llevan a la sección encuadrada; el foco pasa a su título sin mover la vista.
+      // Los enlaces a un segmento lo abren encima de la página.
       useEffect(() => {
         const onClick = (e) => {
           const a = e.target.closest && e.target.closest('a[href^="#"]');
           if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-          const id = a.getAttribute("href").slice(1), sec = id && document.getElementById(id);
+          const id = a.getAttribute("href").slice(1), k = segOf(id);
+          if (k) { e.preventDefault(); openSeg(k); return; }
+          const sec = id && document.getElementById(id);
           if (!sec || sec.tagName !== "SECTION") return;   // p. ej. "saltar al contenido" sigue como siempre
           e.preventDefault();
-          if (location.hash !== "#" + id) history.pushState(null, "", "#" + id);
-          frameSection(sec);
-          const h = document.getElementById(sec.getAttribute("aria-labelledby") || "");
-          if (h) { if (!h.hasAttribute("tabindex")) h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+          const go = () => {
+            if (location.hash !== "#" + id) history.pushState(null, "", "#" + id);
+            frameSection(sec);
+            const h = document.getElementById(sec.getAttribute("aria-labelledby") || "");
+            if (h) { if (!h.hasAttribute("tabindex")) h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+          };
+          // desde un segmento (p. ej. "Reservar nuestra miel"): se cierra y luego se va a la sección
+          if (segRef.current) { history.replaceState(null, "", location.pathname + location.search); setSeg(null); setTimeout(go, 80); }
+          else go();
         };
         document.addEventListener("click", onClick);
         return () => document.removeEventListener("click", onClick);
       }, []);
 
+      // En el celular, el botón redondo de WhatsApp se esconde mientras el panel de compra (Reservar) está en pantalla
+      useEffect(() => {
+        const buy = document.querySelector("#frascos .buy");
+        if (!buy || !("IntersectionObserver" in window)) return;
+        const io = new IntersectionObserver(([en]) => document.body.classList.toggle("buy-visible", en.isIntersecting), { threshold: 0.05 });
+        io.observe(buy);
+        return () => { io.disconnect(); document.body.classList.remove("buy-visible"); };
+      }, []);
+      // Reservar desde un segmento: la reserva se abre encima (con el frasco elegido si estaba vacía)
+      const reserveFromSeg = () => openReserve();
+
       return html`<${MotionConfig} reducedMotion="user">
-          <${Nav} cartCount=${count} onCart=${() => setCartOpen(true)} onReserve=${openReserve} reserveCount=${count} />
+          <${Nav} cartCount=${count} onCart=${() => setCartOpen(true)} onReserve=${openReserve} reserveCount=${count} seg=${seg} />
           <main id="contenido">
             <${Hero} />
             <${Products} selected=${selected} setSelected=${setSelected} qty=${qty} setQ=${setQ} onAdd=${addToCart} onReserve=${onReserve} />
-            <${Essence} />
             <${Origin} />
-            <${ColorScience} />
             <${Crystallization} />
-            <${Difference} />
-            <${Uses} />
-            <${Nutrition} />
-            <${Faq} />
+            <${Discover} />
             <${Closing} />
           </main>
           <${Footer} />
+          <${SegmentPanel} seg=${seg} onClose=${closeSeg} onReserve=${reserveFromSeg} />
           <${StickyBuy} p=${sel} q=${qty[selected]} onAdd=${addToCart} onReserve=${onReserve} />
           ${/* Botón redondo de WhatsApp, siempre visible abajo a la izquierda */ ""}
           <a className="wa-fab" href=${waLink("Hola Bolcanar, quiero información sobre la miel.")} target="_blank" rel="noopener"

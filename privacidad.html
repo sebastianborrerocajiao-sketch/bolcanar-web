@@ -7,10 +7,10 @@
 <meta name="description" content="Cómo trata Bolcanar los datos personales de quienes reservan miel en bolcanar.com, y qué cookies usa la página." />
 <link rel="canonical" href="https://bolcanar.com/privacidad.html" />
 <meta name="theme-color" content="#211B17" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23211B17'/%3E%3Cpath d='M16 5l9.5 5.5v11L16 27l-9.5-5.5v-11z' fill='none' stroke='%23C99545' stroke-width='2'/%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&display=swap" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="stylesheet" href="fonts/fonts.css" />
 <style>
 :root{ --ink:#211B17; --ink-2:#17120F; --gold:#C99545; --gold-hi:#DDB06A; --ivory:#F5F0E6; --white:#FCFAF6; --fg-2:#5E5246; --line:rgba(152,96,31,.22); }
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -80,10 +80,10 @@ footer a{ color:var(--gold-hi); }
 
   <h2>Cómo viajan tus datos</h2>
   <ul>
-    <li><b>Reserva:</b> el formulario envía tu reserva a una hoja de cálculo privada de Bolcanar en Google (Google Sheets), a la que solo tiene acceso Bolcanar. Desde ahí, Google te envía el correo con el resumen de tu compra y le avisa a Bolcanar por correo. Esta página no guarda tus datos.</li>
+    <li><b>Reserva:</b> el formulario envía tu reserva a la hoja de cálculo privada "Lista de clientes · Bolcanar" (pestaña Reservas), en la cuenta de Google de Bolcanar (Google Sheets), a la que solo tiene acceso Bolcanar. Desde esa cuenta (bolcanarmieles@gmail.com) se te envía el correo con el resumen de tu compra y le llega a Bolcanar el aviso de tu pedido. Esta página no guarda tus datos.</li>
     <li><b>Respaldo:</b> si ese servicio de Google no responde, tu reserva se envía al correo de Bolcanar por medio de FormSubmit (formsubmit.co), un servicio que reenvía formularios.</li>
     <li><b>Reserva por WhatsApp:</b> si eliges esa opción, eres tú quien envía el mensaje desde tu WhatsApp.</li>
-    <li><b>Pagos en línea:</b> el pago se hace en la página segura de la pasarela de pago (por ejemplo, PSE). Bolcanar no ve ni guarda tus datos bancarios.</li>
+    <li><b>Pagos:</b> hoy se paga contra entrega. Cuando haya pago en línea, se hará en la página segura de la pasarela de pago o desde la app de tu banco (transferencia Bre-B). Bolcanar no ve ni guarda tus datos bancarios.</li>
   </ul>
 
   <h2>Cuánto tiempo los guardamos</h2>
@@ -105,7 +105,8 @@ footer a{ color:var(--gold-hi); }
   </div>
   <ul>
     <li>La página guarda en tu navegador un solo dato técnico: que ya viste el aviso de privacidad, para no mostrártelo otra vez. Puedes borrarlo cuando quieras desde la configuración de tu navegador.</li>
-    <li>Para mostrar la página usamos servicios externos: las letras se cargan de Google Fonts y parte del código de unpkg.com. Como en cualquier visita a internet, esos servicios reciben datos técnicos de la conexión, como tu dirección IP.</li>
+    <li>Las letras y el código de la página se sirven desde el mismo bolcanar.com (no usamos Google Fonts ni otros servicios para mostrarla). La página la aloja GitHub Pages, que, como cualquier servidor de internet, recibe datos técnicos de la conexión, como tu dirección IP.</li>
+    <li>Al reservar, la página envía tu reserva a Google (Apps Script y Google Sheets) y, solo si eso falla, a FormSubmit, como se explica arriba.</li>
     <li>Los botones de WhatsApp e Instagram te llevan a esos servicios, que tienen sus propias políticas.</li>
   </ul>
 
