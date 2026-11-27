@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Bolcanar · Miel de acacia del Vichada, Colombia — La gota de la vida</title>
-<meta name="description" content="Miel de acacia de los llanos del Vichada, Colombia, cosechada a mano en lotes pequeños y sin químicos. Frascos de 360 g, 500 g y 700 g. Compra en línea y paga contra entrega, con envíos a toda Colombia." />
+<meta name="description" content="Miel de acacia de los llanos del Vichada, Colombia, cosechada a mano en lotes pequeños y sin químicos. Frascos de 360 g, 500 g y 700 g. Compra en línea y paga por transferencia Bre-B o contra entrega, con envíos a toda Colombia." />
 <link rel="canonical" href="https://bolcanar.com/" />
 <meta name="theme-color" content="#211B17" />
 <meta property="og:type" content="website" />
@@ -945,7 +945,8 @@ h3{ letter-spacing:-.006em; }
     //    La pasarela cobra su comisión y te deposita en tu cuenta bancaria. Solo se aceptan direcciones https.
     // Al enviar la reserva, la página muestra el valor exacto, el número de reserva y cómo pagar, y el correo al
     // cliente lleva las mismas instrucciones.
-    const PAGO_EN_LINEA = { activo: false, llaveBreB: "", link: "" };   // p. ej. { activo: true, llaveBreB: "@bolcanar", link: "" }
+    // Llave Bre-B de Bolcanar (BBVA), enviada por Bolcanar el 2026-11-26; encendida ese día a pedido de Bolcanar.
+    const PAGO_EN_LINEA = { activo: true, llaveBreB: "@bbvasbc482", link: "" };
     // · En línea con Shopify (tarjeta y PSE, según el medio de pago activado en Shopify): aparece como otra opción
     //   cuando "store" tiene el dominio .myshopify.com de la tienda, ya guardada en la cuenta de Shopify y con plan.
     //   Lleva al pago de Shopify con los frascos en el carrito y el número de reserva en las notas del pedido.
